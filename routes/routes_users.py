@@ -2,7 +2,7 @@ from flask import (
     Blueprint, render_template, request,
     redirect, url_for, jsonify, flash
     )
-from flask_login import login_required
+from flask_login import login_required, current_user
 from models.users import Users
 from models.date import today_date
 from models.engine.database import session
@@ -59,7 +59,8 @@ def insert_user_data():
                 flash('Email already exists', 'error')
                 return redirect(url_for('users.users'))
 
-            new_user = Users(name, surname, username, password, email, role)
+            new_user = Users(name=name, surname=surname, username=username,
+                             password=password, email=email, role=role)
             session.add(new_user)
             session.commit()
             flash('User added successfully!', 'success')
@@ -163,3 +164,26 @@ def delete_user_data(user_data_id):
     else:
         flash('User not found....', 'error')
         return redirect(url_for('users.users'))
+    
+
+@users_bp.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    user = session.query(Users).get(current_user.id)
+
+    if request.method == "POST":
+        user.name = request.form.get("name")
+        user.surname = request.form.get("surname")
+        user.username = request.form.get("username")
+        user.email = request.form.get("email")
+
+ 
+        new_password = request.form.get("password")
+        if new_password:
+            user.password = new_password
+
+        session.commit()
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for("users.profile"))
+
+    return render_template("user_profile.html", user=user)

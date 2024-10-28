@@ -26,7 +26,7 @@ class Users(BaseModel, UserMixin):
     
     def has_role(self, role):
         return self.role == role
-    
+
 
     @classmethod
     def user_data_to_dict_list(cls):

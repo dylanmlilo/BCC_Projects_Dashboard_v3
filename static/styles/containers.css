@@ -340,3 +340,36 @@ h3 {
 .alert-container .alert {
     padding: 0.5rem 1rem;
 }
+
+
+/* user profile */
+
+.profile-form-container {
+    background-color: #dce0e3;  /* Light grey background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.profile-form-container h2 {
+    color: #343a40; /* Darker text color for the title */
+}
+
+.profile-form-container label {
+    color: #495057; /* Subtle label color */
+}
+
+.profile-form-container .form-control {
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.profile-form-container .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px;
+}
+
+.profile-form-container .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
