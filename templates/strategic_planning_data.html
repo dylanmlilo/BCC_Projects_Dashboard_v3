@@ -94,7 +94,7 @@
                     <table id="strats_project_manager_table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr class="table-dark">
-                                <th>Project Manager ID</th>
+                                <th>No.</th>
                                 <th>Project Manager</th>
                                 <th>Actions</th>
                             </tr>
@@ -102,7 +102,7 @@
                         <tbody>
                             {% for project_manager in project_managers %}
                             <tr>
-                                <td>{{ project_manager.id }}</td>
+                                <td>{{ loop.index }}</td>
                                 <td>{{ project_manager.name or '' }}</td>
                                 <td>
                                     <a href="{{ url_for('projects.update_projects_project_manager', project_manager_id=project_manager.id) }}" class="btn btn-warning btn-xs update-btn" data-toggle="modal" data-target="#updateStrategicProjectManagerModal{{ project_manager.id }}">Edit</a>

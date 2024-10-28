@@ -151,7 +151,7 @@ def plot_home_page_charts():
     for section in df['section'].unique():
         # Filter the data for the section and build the chart
         df_section = df[(df['section'] == section) & df['physical_progress_percentage'].notnull()]
-        fig = px.bar(
+        fig = px.scatter(
             df_section,
             x='contract_number',
             y='physical_progress_percentage',
@@ -163,6 +163,9 @@ def plot_home_page_charts():
                 'project_manager': True              # Include project manager name without header
             }
         )
+
+        # Adjust size of the scatter dots
+        fig.update_traces(marker=dict(size=10))
 
         # Apply consistent layout styling and set alternating background color
         fig.update_layout(

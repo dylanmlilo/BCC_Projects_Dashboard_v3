@@ -7,6 +7,7 @@ from models.users import Users
 from models.date import today_date
 from models.engine.database import session
 from models.decorators import required_roles
+from werkzeug.security import generate_password_hash
 
 
 users_bp = Blueprint('users', __name__)
@@ -59,8 +60,9 @@ def insert_user_data():
                 flash('Email already exists', 'error')
                 return redirect(url_for('users.users'))
 
-            new_user = Users(name=name, surname=surname, username=username,
-                             password=password, email=email, role=role)
+            new_user = Users(name=name, surname=surname, username=username, email=email, role=role)
+            new_user.set_password(password)
+
             session.add(new_user)
             session.commit()
             flash('User added successfully!', 'success')
@@ -68,27 +70,16 @@ def insert_user_data():
 
         except Exception as e:
             session.rollback()
-            flash('An error occurred: {}'.format(str(e)), 'error')
+            flash(f'An error occurred: {str(e)}', 'error')
             return redirect(url_for('users.users'))
         finally:
             session.close()
-
 
 
 @users_bp.route("/update_user_data/<int:user_data_id>", strict_slashes=False, methods=["POST"])
 @login_required
 @required_roles('admin')
 def update_user_data(user_data_id):
-    """
-    Update user data.
-
-    Args:
-        user_data_id (int): The id of the user to update.
-
-    Returns:
-        A redirect to the users page if the update is successful, a 400 error with
-        an error message if the update fails, or a 404 error if the user is not found.
-    """
     if request.method == "POST":
         user = session.query(Users).filter_by(id=user_data_id).first()
         if user:
@@ -113,7 +104,8 @@ def update_user_data(user_data_id):
                 user.name = name
                 user.surname = surname
                 user.username = new_username
-                user.password = password
+                if password:
+                    user.set_password(password)
                 user.email = email
                 user.role = role
 
@@ -124,15 +116,13 @@ def update_user_data(user_data_id):
             except Exception as e:
                 session.rollback()
                 flash(f'An error occurred: {str(e)}', 'error')
-                return redirect(url_for('users.edit_user', user_data_id=user_data_id))
-
+                return redirect(url_for('users.users', user_data_id=user_data_id))
             finally:
                 session.close()
         else:
             flash('User not found.', 'error')
             return redirect(url_for('users.users'))
 
-        
 
 @users_bp.route("/delete_user_data/<int:user_data_id>")
 @login_required
@@ -177,10 +167,15 @@ def profile():
         user.username = request.form.get("username")
         user.email = request.form.get("email")
 
- 
         new_password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
         if new_password:
-            user.password = new_password
+            if new_password != confirm_password:
+                flash("Passwords do not match. Please try again.", "error")
+                return redirect(url_for("users.profile"))
+
+            user.password = generate_password_hash(new_password)
 
         session.commit()
         flash("Profile updated successfully!", "success")

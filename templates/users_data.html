@@ -27,11 +27,10 @@
                     <table id="user_data_table" class="table table-hover table-bordered table-striped">
                         <thead>
                         <tr class="table-dark">
-                            <th>User ID</th>
+                            <th>No.</th>
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Username</th>
-                            <th>Password</th>
                             <th>Email</th>
                             <th>Role</th>
                             <th>Actions</th>
@@ -41,11 +40,10 @@
                         <tbody>
                         {% for user in users_data %}
                         <tr class="table-light">
-                            <td>{{ user.id or '' }}</td>
+                            <td>{{ loop.index }}</td>
                             <td>{{ user.name or '' }}</td>
                             <td>{{ user.surname or '' }}</td>
                             <td>{{ user.username or '' }}</td>
-                            <td>{{ user.password or '' }}</td>
                             <td>{{ user.email or '' }}</td>
                             {% set role_options = {
                                 'admin': 'Administrator',
