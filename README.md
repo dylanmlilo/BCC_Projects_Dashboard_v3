@@ -1,45 +1,7 @@
-Nando Construction - Project Management Dashboard
+Bulawayo City - Project Management Dashboard
 Project Overview
 
-This is a project management dashboard developed for a mock company, Nando Construction. The application allows users to log in with roles assigned to them (such as admin or regular user), providing access to a dashboard that displays important project metrics and data. Administrators have additional functionality to manage data via CRUD operations.
-
-![image](https://github.com/user-attachments/assets/cb761af5-3176-48cd-86dc-fb9d45b2ce32)
-
-![image](https://github.com/user-attachments/assets/552cc2da-24d0-42d5-823b-0753e9619951)
-
-![image](https://github.com/user-attachments/assets/eaf2922f-2795-4fdd-a732-254db1439a99)
-
-![image](https://github.com/user-attachments/assets/02d908bb-16a2-4e78-bd95-1c35fbdcff72)
-
-![image](https://github.com/user-attachments/assets/5e1235ec-77f8-4038-9785-0b8968500b4e)
-
-![image](https://github.com/user-attachments/assets/19c43433-4935-41e4-aa88-168bbbf0d72e)
-
-![image](https://github.com/user-attachments/assets/72c4b994-c2ee-4d2c-b470-10750486b6a0)
-
-![image](https://github.com/user-attachments/assets/a04b3254-4b9c-41b2-ae3c-c88830a970e1)
-
-![image](https://github.com/user-attachments/assets/01fe0b42-de12-46dd-a9da-926d1071c108)
-
-![image](https://github.com/user-attachments/assets/e08bf9f8-f448-4f73-b256-7b79c8b84cd8)
-
-![image](https://github.com/user-attachments/assets/d98d086d-674d-45df-99ea-0d2cbcf083fc)
-
-![image](https://github.com/user-attachments/assets/71b92ffe-90c9-48c2-b0c7-3854c0a984b7)
-
-![image](https://github.com/user-attachments/assets/bed38c99-8a8a-4226-90d0-56fe32b66c40)
-
-![image](https://github.com/user-attachments/assets/888d4f9d-c165-446c-94c7-6fcc56190b7f)
-
-![image](https://github.com/user-attachments/assets/43cbb951-ba56-4f26-b0d3-e9861bc7fd4f)
-
-![image](https://github.com/user-attachments/assets/abda3f4f-ec9d-4802-bb49-e774c60f8e29)
-
-![image](https://github.com/user-attachments/assets/7069708c-0c1e-4c68-8442-10f1e4c4fe05)
-
-![image](https://github.com/user-attachments/assets/e0416b06-5a36-40ec-96c4-6c73f4ce4640)
-
-![image](https://github.com/user-attachments/assets/fb424f2c-5ef9-4db7-93b7-ad8aa898eb3f)
+This is a project management dashboard developed for the Bulawayo City Council. The application allows users to log in with roles assigned to them (such as admin or regular user), providing access to a dashboard that displays important project metrics and data. Administrators have additional functionality to manage data via CRUD operations.
 
 Key Features:
 
