@@ -1,0 +1,48 @@
+{% block content %}
+<!-- Update GIS Task Modal -->
+<div class="modal fade" id="updateGISTaskModal{{ task_data.id }}" tabindex="-1" role="dialog" aria-labelledby="myGISTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myGIStaskModalLabel">Edit Data</h5>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('gis_task.update_gis_task_data', gis_task_data_id=task_data.id) }}" method="post">
+            <div class="form-group">
+                <label>Activity ID <span style="color: red;">*</span></label>
+                <input type="number" class="form-control" name="activity_id" value="{{ task_data.activity_id }}" required>
+            </div>
+            <div class="form-group">
+                <label>Task Description <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" name="description" value="{{ task_data.description }}" required>
+            </div>
+            <div class="form-group">
+                <label>Percentage Done</label>
+                <input type="number" class="form-control" name="percentage_of_activity" value="{{ task_data.percentage_of_activity }}">
+            </div>
+            <div class="form-group">
+              <label>Status <span style="color: red;">*</span></label>
+              <select class="form-control form-select" name="status" required>
+                  {% for status_option in ['Complete', 'In Progress', 'Overdue', 'Not Started'] %}
+                      <option value="{{ status_option }}" {% if task_data.status == status_option %}selected{% endif %}>
+                          {{ status_option }}
+                      </option>
+                  {% endfor %}
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Link</label>
+              <input type="text" class="form-control" name="link" value="{{ task_data.link }}">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
+            </div>
+          </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

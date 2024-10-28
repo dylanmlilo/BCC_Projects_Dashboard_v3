@@ -1,0 +1,98 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="stats-container gis">
+    <h1>GIS Projects</h1>
+</div>
+<p class="card-text date">{{ today_date }}</p>
+<div class="stats_data_container">
+    <h2>Summary of GIS Projects</h2>
+    <div class="table-responsive">
+        <table id="gis_table" class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr class="table-dark">
+                    <th>OUT PUT</th>
+                    <th>ACTIVITY<br>Activities add up to 100% of the Output</th>
+                    <th>TASK<br>Tasks add up to 100% of the Activity</th>
+                    <th>Status</th>
+                    <th>Percentage done</th>
+                    <th>RESPONSIBLE OFFICER/PERSON<br>Names of Responsible People in Full</th>
+                    <th>DESIGNATION</th>
+                    <th>LINK</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in gis_data %}
+                    <tr>
+                        <td>{{ data.output_name or '' }}</td>
+                        <td>{{ data.activity or '' }}</td>
+                        <td>{{ data.task_description or '' }}</td>
+                        <td class="{% if data.task_status == 'In Progress' %}table-yellow_green
+                                    {% elif data.task_status == 'Complete' %}table-green
+                                    {% elif data.task_status == 'Overdue' %}table-red
+                                    {% elif data.task_status == 'Not Started' %}table-blue
+                                    {% else %}table-info{% endif %}">
+                                    {{ data.task_status or '' }}
+                        </td>
+                        <td>{{ data.percentage_of_activity or '' }}</td>
+                        <td>{{ data.responsible_person or '' }}</td>
+                        <td>{{ data.designation or '' }}</td>
+                        <td>
+                            {% if data.link %}
+                                <a href="{{ data.link }}" target="_blank">link</a>
+                            {% else %}
+                                {{ '' }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="charts-container">
+    {% for chart in gis_tasks_charts %}
+        <div id="gis_graph-container{{ loop.index }}" class="graph-container"></div>
+    {% endfor %}
+</div>
+
+<!-- Load necessary scripts -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+<!-- Initialize DataTables -->
+<script>
+    $(document).ready(function() {
+        $('#gis_table').DataTable({
+            ordering: false,
+        });
+    });
+</script>
+
+<!-- Load GIS bar plots -->
+<script>
+    var gisTaskData = {{ gis_tasks_charts | safe }};
+    gisTaskData.forEach(function(data, index) {
+        var divId = 'gis_graph-container' + (index + 1);
+        var div = document.getElementById(divId);
+        Plotly.newPlot(div, JSON.parse(data));
+    });
+
+    function updateChartSize() {
+        const graphContainers = document.querySelectorAll('.graph-container');
+        for (const container of graphContainers) {
+            const chartId = container.id;
+            const chart = document.getElementById(chartId);
+            const containerWidth = container.clientWidth;
+            Plotly.relayout(chart, { width: containerWidth });
+        }
+    }
+  
+    updateChartSize();
+    window.addEventListener('resize', updateChartSize);
+</script>
+{% endblock %}

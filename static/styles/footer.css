@@ -1,0 +1,39 @@
+footer {
+    background: rgba(8, 58, 103, 0.95);
+    width: 100%;
+    border-top: 1px solid gray;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    color: #fff;
+}
+
+footer .nav-link {
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.vision {
+    font-size: 2rem;
+    color: rgb(171, 190, 199);
+    text-shadow: 1px 1px 0px rgb(171, 190, 199);
+}
+
+.copyright {
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+.contact_details {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.email {
+    color: rgb(255, 255, 255);
+}
+
+.email:hover {
+    color: rgba(7, 97, 187, 0.849);
+    text-decoration: none;
+}
