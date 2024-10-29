@@ -10,6 +10,14 @@ class Section(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100))
 
+    @classmethod
+    def section_data_to_dict_list(cls) -> list[dict]:
+        sections = session.query(cls).all()
+
+        sections_list = [section.to_dict() for section in sections]
+
+        return sections_list
+
 
 class ProjectManagers(BaseModel):
     __tablename__ = 'project_managers'

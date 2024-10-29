@@ -93,12 +93,19 @@
                                 <td>{{ project_data.public_lighting_progress or '' }}</td>
                                 <td>{{ project_data.physical_progress_percentage or '' }}</td>
                                 <td>{{ project_data.tax_clearance_validation or '' }}</td>
-                                <td>{{ project_data.link or '' }}</td>
                                 <td>
-                                    <a href="/update_projects_data/{{ projects_data.id }}" class="btn btn-warning btn-xs update-btn" data-toggle="modal" data-target="#updateProjectsModal{{ projects_data.id }}">Edit</a>
-                                    <a href="/delete_projects_data/{{ projects_data.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                                    {% if project_data.link %}
+                                        <a href="{{ project_data.link }}" target="_blank">link</a>
+                                    {% else %}
+                                        {{ '' }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="/update_projects_data/{{ project_data.id }}" class="btn btn-warning btn-xs update-btn" data-toggle="modal" data-target="#updateProjectsModal{{ project_data.id }}">Edit</a>
+                                    <a href="/delete_projects_data/{{ project_data.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
                                 </td>
                                 {% include "add_projects_modal.html" %}
+                                {% include "update_projects_modal.html" %}
                             </tr>
                             {% endfor %}
                         </tbody>

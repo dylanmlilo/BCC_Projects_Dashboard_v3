@@ -6,9 +6,11 @@ from flask_login import login_required
 from models.engine.database import session
 from models.date import today_date
 from models.projects import (
-    ProjectsData, ProjectManagers
+    ProjectsData, ProjectManagers, Section
 )
 from models.decorators import required_roles
+from datetime import datetime
+from decimal import Decimal
 
 
 projects_bp = Blueprint('projects', __name__)
@@ -34,9 +36,10 @@ def projects_data():
     """
     projects_data = ProjectsData.projects_data_to_dict_list()
     project_managers = ProjectManagers.project_managers_to_dict_list()
+    sections = Section.section_data_to_dict_list()
     formatted_date = today_date()
     return render_template("projects_data.html", today_date=formatted_date,
-                           projects_data=projects_data,
+                           projects_data=projects_data, sections=sections,
                            project_managers=project_managers)
 
 
@@ -142,124 +145,163 @@ def delete_projects_project_manager(project_manager_id):
 @login_required
 @required_roles('admin', 'admin_projects')
 def insert_projects_data():
-    """
-    Inserts the project data into the database and
-    redirects to the projects page.
+    if request.method == "POST":
+        new_data = ProjectsData(
+            contract_number=request.form.get("contract_number"),
+            contract_name=request.form.get("contract_name"),
+            contract_type_id=int(request.form.get("contract_type_id", 0)),
+            project_manager_id=int(request.form.get("project_manager_id", 0)),
+            section_id=int(request.form.get("section_id", 0)),
+            contractor=request.form.get("contractor"),
+            year=request.form.get("year"),
+            date_contract_signed=datetime.strptime(request.form.get("date_contract_signed"), "%Y-%m-%d").date() if request.form.get("date_contract_signed") else None,
+            date_contract_signed_by_bcc=datetime.strptime(request.form.get("date_contract_signed_by_bcc"), "%Y-%m-%d").date() if request.form.get("date_contract_signed_by_bcc") else None,
+            early_start_date=datetime.strptime(request.form.get("early_start_date"), "%Y-%m-%d").date() if request.form.get("early_start_date") else None,
+            contract_duration_weeks=Decimal(request.form.get("contract_duration_weeks")) if request.form.get("contract_duration_weeks") else None,
+            contract_duration_months=Decimal(request.form.get("contract_duration_months")) if request.form.get("contract_duration_months") else None,
+            early_finish_date=datetime.strptime(request.form.get("early_finish_date"), "%Y-%m-%d").date() if request.form.get("early_finish_date") else None,
+            extension_of_time=datetime.strptime(request.form.get("extension_of_time"), "%Y-%m-%d").date() if request.form.get("extension_of_time") else None,
+            project_status=request.form.get("project_status"),
+            contract_value_including_ten_percent_contingency=Decimal(request.form.get("contract_value_including_ten_percent_contingency")) if request.form.get("contract_value_including_ten_percent_contingency") else None,
+            performance_guarantee_value=Decimal(request.form.get("performance_guarantee_value")) if request.form.get("performance_guarantee_value") else None,
+            performance_guarantee_expiry_date=datetime.strptime(request.form.get("performance_guarantee_expiry_date"), "%Y-%m-%d").date() if request.form.get("performance_guarantee_expiry_date") else None,
+            advance_payment_value=Decimal(request.form.get("advance_payment_value")) if request.form.get("advance_payment_value") else None,
+            advance_payment_guarantee_expiry_date=datetime.strptime(request.form.get("advance_payment_guarantee_expiry_date"), "%Y-%m-%d").date() if request.form.get("advance_payment_guarantee_expiry_date") else None,
+            total_certified_interim_payments_to_date=Decimal(request.form.get("total_certified_interim_payments_to_date")) if request.form.get("total_certified_interim_payments_to_date") else None,
+            financial_progress_percentage=Decimal(request.form.get("financial_progress_percentage")) if request.form.get("financial_progress_percentage") else None,
+            roads_progress=Decimal(request.form.get("roads_progress")) if request.form.get("roads_progress") else None,
+            water_progress=Decimal(request.form.get("water_progress")) if request.form.get("water_progress") else None,
+            sewer_progress=Decimal(request.form.get("sewer_progress")) if request.form.get("sewer_progress") else None,
+            storm_drainage_progress=Decimal(request.form.get("storm_drainage_progress")) if request.form.get("storm_drainage_progress") else None,
+            public_lighting_progress=Decimal(request.form.get("public_lighting_progress")) if request.form.get("public_lighting_progress") else None,
+            physical_progress_percentage=Decimal(request.form.get("physical_progress_percentage")) if request.form.get("physical_progress_percentage") else None,
+            tax_clearance_validation=request.form.get("tax_clearance_validation"),
+            link=request.form.get("link")
+        )
 
-    Returns:
-        flask.Response: A redirect response to the projects
-        page or a JSON response with an error message.
-    """
-    if request.method == 'POST':
-        try:
-            # Get form data
-            contract_number = request.form.get('contract_number')
-            contract_name = request.form.get('contract_name')
-            contract_type_id = request.form.get('contract_type_id')
-            project_manager_id = request.form.get('project_manager_id')
-            section_id = request.form.get('section_id')
-            contractor = request.form.get('contractor')
-            year = request.form.get('year')
-            date_contract_signed = request.form.get('date_contract_signed')
-            date_contract_signed_by_bcc = (
-                request.form.get('date_contract_signed_by_bcc')
-                )
-            early_start_date = request.form.get('early_start_date')
-            contract_duration_weeks = (
-                request.form.get('contract_duration_weeks')
-                )
-            contract_duration_months = (
-                request.form.get('contract_duration_months')
-                )
-            early_finish_date = request.form.get('early_finish_date')
-            extension_of_time = request.form.get('extension_of_time')
-            project_status = request.form.get('project_status')
-            contract_value_including_ten_percent_contingency = (
-                request.form
-                .get('contract_value_including_ten_percent_contingency')
-                )
-            performance_guarantee_value = (
-                request.form.get('performance_guarantee_value')
-            )
-            performance_guarantee_expiry_date = (
-                request.form.get('performance_guarantee_expiry_date')
-            )
-            advance_payment_value = request.form.get('advance_payment_value')
-            advance_payment_guarantee_expiry_date = (
-                request.form.get('advance_payment_guarantee_expiry_date')
-            )
-            total_certified_interim_payments_to_date = (
-                request.form.get('total_certified_interim_payments_to_date')
-            )
-            financial_progress_percentage = (
-                request.form.get('financial_progress_percentage')
-            )
-            roads_progress = request.form.get('roads_progress')
-            water_progress = request.form.get('water_progress')
-            sewer_progress = request.form.get('sewer_progress')
-            storm_drainage_progress = (
-                request.form.get('storm_drainage_progress')
-            )
-            public_lighting_progress = (
-                request.form.get('public_lighting_progress')
-            )
-            physical_progress_percentage = (
-                request.form.get('physical_progress_percentage')
-            )
-            tax_clearance_validation = (
-                request.form.get('tax_clearance_validation')
-            )
-            link = request.form.get('link')
+        session.add(new_data)
+        session.commit()
+        flash('Projects Data inserted successfully!', 'success')
+        return redirect(url_for('projects.projects_data'))
+    
 
-            # Create new project record
-            new_project_record = ProjectsData(
-                contract_number=contract_number,
-                contract_name=contract_name,
-                contract_type_id=contract_type_id,
-                project_manager_id=project_manager_id,
-                section_id=section_id,
-                contractor=contractor,
-                year=year,
-                date_contract_signed=date_contract_signed,
-                date_contract_signed_by_bcc=date_contract_signed_by_bcc,
-                early_start_date=early_start_date,
-                contract_duration_weeks=contract_duration_weeks,
-                contract_duration_months=contract_duration_months,
-                early_finish_date=early_finish_date,
-                extension_of_time=extension_of_time,
-                project_status=project_status,
-                contract_value_including_ten_percent_contingency=(
-                    contract_value_including_ten_percent_contingency
-                ),
-                performance_guarantee_value=performance_guarantee_value,
-                performance_guarantee_expiry_date=(
-                    performance_guarantee_expiry_date
-                ),
-                advance_payment_value=advance_payment_value,
-                advance_payment_guarantee_expiry_date=(
-                    advance_payment_guarantee_expiry_date
-                ),
-                total_certified_interim_payments_to_date=(
-                    total_certified_interim_payments_to_date
-                ),
-                financial_progress_percentage=financial_progress_percentage,
-                roads_progress=roads_progress,
-                water_progress=water_progress,
-                sewer_progress=sewer_progress,
-                storm_drainaige_progress=storm_drainage_progress,
-                public_lighting_progress=public_lighting_progress,
-                physical_progress_percentage=physical_progress_percentage,
-                tax_clearance_validation=tax_clearance_validation,
-                link=link)
+@projects_bp.route('/update_projects_data/<int:projects_data_id>', methods=['POST'])
+@login_required
+@required_roles('admin', 'admin_projects')
+def update_projects_data(projects_data_id):
+    if request.method == "POST":
+        existing_data = session.query(ProjectsData).get(projects_data_id)
 
-            session.add(new_project_record)
-            session.commit()
-            flash('Data inserted successfully')
+        if not existing_data:
+            flash('Projects Data not found!', 'error')
             return redirect(url_for('projects.projects_data'))
 
-        except Exception as e:
-            session.rollback()
-            return jsonify({'error': str(e)}), 400
+        existing_data.contract_number = request.form.get("contract_number")
+        existing_data.contract_name = request.form.get("contract_name")
+        existing_data.contract_type_id = int(request.form.get("contract_type_id", 0))
+        existing_data.project_manager_id = int(request.form.get("project_manager_id", 0))
+        existing_data.section_id = int(request.form.get("section_id", 0))
+        existing_data.contractor = request.form.get("contractor")
+        existing_data.year = request.form.get("year")
+        existing_data.date_contract_signed = (
+            datetime.strptime(request.form.get("date_contract_signed"), "%Y-%m-%d").date()
+            if request.form.get("date_contract_signed") else None
+        )
+        existing_data.date_contract_signed_by_bcc = (
+            datetime.strptime(request.form.get("date_contract_signed_by_bcc"), "%Y-%m-%d").date()
+            if request.form.get("date_contract_signed_by_bcc") else None
+        )
+        existing_data.early_start_date = (
+            datetime.strptime(request.form.get("early_start_date"), "%Y-%m-%d").date()
+            if request.form.get("early_start_date") else None
+        )
+        existing_data.contract_duration_weeks = (
+            Decimal(request.form.get("contract_duration_weeks"))
+            if request.form.get("contract_duration_weeks") else None
+        )
+        existing_data.contract_duration_months = (
+            Decimal(request.form.get("contract_duration_months"))
+            if request.form.get("contract_duration_months") else None
+        )
+        existing_data.early_finish_date = (
+            datetime.strptime(request.form.get("early_finish_date"), "%Y-%m-%d").date()
+            if request.form.get("early_finish_date") else None
+        )
+        existing_data.extension_of_time = (
+            Decimal(request.form.get("extension_of_time"))
+            if request.form.get("extension_of_time") else None
+        )
+        existing_data.project_status = request.form.get("project_status")
+        existing_data.contract_value_including_ten_percent_contingency = (
+            Decimal(request.form.get("contract_value_including_ten_percent_contingency"))
+            if request.form.get("contract_value_including_ten_percent_contingency") else None
+        )
+        existing_data.performance_guarantee_value = (
+            Decimal(request.form.get("performance_guarantee_value"))
+            if request.form.get("performance_guarantee_value") else None
+        )
+        existing_data.performance_guarantee_expiry_date = (
+            datetime.strptime(request.form.get("performance_guarantee_expiry_date"), "%Y-%m-%d").date()
+            if request.form.get("performance_guarantee_expiry_date") else None
+        )
+        existing_data.advance_payment_value = (
+            Decimal(request.form.get("advance_payment_value"))
+            if request.form.get("advance_payment_value") else None
+        )
+        existing_data.advance_payment_guarantee_expiry_date = (
+            datetime.strptime(request.form.get("advance_payment_guarantee_expiry_date"), "%Y-%m-%d").date()
+            if request.form.get("advance_payment_guarantee_expiry_date") else None
+        )
+        existing_data.total_certified_interim_payments_to_date = (
+            Decimal(request.form.get("total_certified_interim_payments_to_date"))
+            if request.form.get("total_certified_interim_payments_to_date") else None
+        )
+        existing_data.financial_progress_percentage = (
+            Decimal(request.form.get("financial_progress_percentage"))
+            if request.form.get("financial_progress_percentage") else None
+        )
+        existing_data.roads_progress = (
+            Decimal(request.form.get("roads_progress"))
+            if request.form.get("roads_progress") else None
+        )
+        existing_data.water_progress = (
+            Decimal(request.form.get("water_progress"))
+            if request.form.get("water_progress") else None
+        )
+        existing_data.sewer_progress = (
+            Decimal(request.form.get("sewer_progress"))
+            if request.form.get("sewer_progress") else None
+        )
+        existing_data.storm_drainage_progress = (
+            Decimal(request.form.get("storm_drainage_progress"))
+            if request.form.get("storm_drainage_progress") else None
+        )
+        existing_data.public_lighting_progress = (
+            Decimal(request.form.get("public_lighting_progress"))
+            if request.form.get("public_lighting_progress") else None
+        )
+        existing_data.physical_progress_percentage = (
+            Decimal(request.form.get("physical_progress_percentage"))
+            if request.form.get("physical_progress_percentage") else None
+        )
+        existing_data.tax_clearance_validation = request.form.get("tax_clearance_validation")
+        existing_data.link = request.form.get("link")
 
-        finally:
-            session.close()
+        session.commit()
+        flash('Projects Data updated successfully!', 'success')
+        return redirect(url_for('projects.projects_data'))
+
+
+@projects_bp.route("/delete_projects_data/<int:project_data_id>")
+@login_required
+@required_roles('admin', 'admin_projects')
+def delete_projects_data(project_data_id):
+    project_data = session.query(ProjectsData).filter_by(id=project_data_id).first()
+    if not project_data:
+        flash('Projects Data not found!', 'error')
+        return redirect(url_for('projects.projects_data'))
+
+    session.delete(project_data)
+    session.commit()
+    flash('Project data deleted successfully!', 'success')
+    return redirect(url_for('projects.projects_data'))
