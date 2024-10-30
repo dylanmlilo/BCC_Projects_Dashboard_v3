@@ -131,7 +131,7 @@ def update_strategic_data(strategic_data_id):
     - Redirect to "strategic_planning_data" with success or error message.
     """
     try:
-        task = session.query(StrategicTask).filter_by(id=strategic_data_id).first()
+        task = session.query(StrategicTask).filter_by(task_id=strategic_data_id).first()
         if task:
             task.task = request.form.get('task')
             task.description = request.form.get('description') or None
