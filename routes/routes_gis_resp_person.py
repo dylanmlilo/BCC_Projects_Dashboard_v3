@@ -95,7 +95,7 @@ def delete_gis_resp_person_data(gis_resp_person_data_id):
             flash('Responsible person not found.', 'error')
 
     except Exception as e:
-        flash(f'An error occurred while deleting data: {str(e)}', 'error')
+        flash(f'An error occurred while deleting the responsible person. It seems that the responsible person is associated with an activity that cannot be empty. Please check the activities associated with the responsible person.', 'error')
         session.rollback()
 
     finally:
