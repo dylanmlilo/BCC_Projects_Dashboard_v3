@@ -9,6 +9,6 @@ db_connection_string = os.getenv('db_connection_string')
 
 engine = create_engine(db_connection_string, pool_recycle=3600, pool_pre_ping=True)
 
-Session = sessionmaker(bind=engine)
+Session = (sessionmaker(bind=engine))
 
 session = Session()

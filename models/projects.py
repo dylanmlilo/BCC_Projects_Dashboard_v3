@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DECIMAL, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base import BaseModel
+from models.basemodel import BaseModel
 from models.engine.database import session
 
 
@@ -12,11 +12,16 @@ class Section(BaseModel):
 
     @classmethod
     def section_data_to_dict_list(cls) -> list[dict]:
-        sections = session.query(cls).all()
-
-        sections_list = [section.to_dict() for section in sections]
-
-        return sections_list
+        try:
+            sections = session.query(cls).all()
+            sections_list = [section.to_dict() for section in sections]
+            return sections_list
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            session.rollback()
+            return []
+        finally:
+            session.close()
 
 
 class ProjectManagers(BaseModel):
@@ -33,8 +38,7 @@ class ProjectManagers(BaseModel):
         Exclude the _sa_instance_state attribute.
 
         Args:
-            section_name (str, optional): Name of the section to
-            filter project managers. Defaults to None.
+            section_name (str, optional): Name of the section to filter project managers. Defaults to None.
 
         Returns:
             list: A list of dictionaries containing project managers.
@@ -42,15 +46,14 @@ class ProjectManagers(BaseModel):
         try:
             query_filter = (cls.section == section_name) if section_name else True
             project_managers = session.query(cls).filter(query_filter).all()
+            result_list = [pm.to_dict() for pm in project_managers]
+            return result_list
         except Exception as e:
-            session.rollback()
             print(f"An error occurred: {e}")
+            session.rollback()
             return []
         finally:
             session.close()
-
-        result_list = [pm.to_dict() for pm in project_managers]
-        return result_list
 
 
 class ContractType(BaseModel):
@@ -68,23 +71,16 @@ class ContractType(BaseModel):
             contract_type_id: The contract type id to filter by.
 
         Returns:
-            A list of dictionaries containing project data
-            for the specified contract type.
+            A list of dictionaries containing project data for the specified contract type.
             If no data is found, an empty list is returned.
         """
         if not isinstance(contract_type_id, int) or contract_type_id <= 0:
             raise ValueError("Invalid contract_type_id")
 
-        try:
-            data = ProjectsData.projects_data_to_dict_list()
-        except Exception as e:
-            print(f"Error retrieving data: {e}")
-            return []
-
+        data = ProjectsData.projects_data_to_dict_list()
+        
         filtered_data = [
-            row
-            for row in data
-            if row.get('contract_type_id') == contract_type_id
+            row for row in data if row.get('contract_type_id') == contract_type_id
         ]
         return filtered_data
 
@@ -135,8 +131,7 @@ class ProjectsData(BaseModel):
         Exclude the _sa_instance_state attribute.
 
         Args:
-            contract_type_id (int, optional): Filter results by contract_type_id.
-            Defaults to None.
+            contract_type_id (int, optional): Filter results by contract_type_id. Defaults to None.
 
         Returns:
             list: A list of dictionaries containing projects data with related data
@@ -158,20 +153,23 @@ class ProjectsData(BaseModel):
 
             projects_data = query.all()
 
+            result_list = [
+                {
+                    **row.to_dict(),
+                    'contract_type': row.contract_type.name,
+                    'project_manager': row.project_manager.name,
+                    'section': row.section.name,
+                }
+                for row in projects_data
+            ]
+
+            sorted_result_list = sorted(result_list, key=lambda x: x["id"])
+            return sorted_result_list
+
         except Exception as e:
-            session.rollback()
             print(f"An error occurred: {e}")
+            session.rollback()
             return []
-
-        result_list = [
-        {
-            **row.to_dict(),
-            'contract_type': row.contract_type.name,
-            'project_manager': row.project_manager.name,
-            'section': row.section.name,
-        }
-        for row in projects_data
-        ]
-
-        sorted_result_list = sorted(result_list, key=lambda x: x["id"])
-        return sorted_result_list
+        
+        finally:
+            session.close()

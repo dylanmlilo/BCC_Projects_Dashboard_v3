@@ -1,7 +1,7 @@
 import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.base import Base
+from BCC_Projects_Dashboard_v3.models.basemodel import Base
 from models.projects import ProjectManagers
 from models.strategic import StrategicTask
 

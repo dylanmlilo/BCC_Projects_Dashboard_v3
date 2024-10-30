@@ -1,9 +1,12 @@
 <footer>
   <ul class="nav justify-content-center">
-    <li class="nav-item"><a href="/home" class="nav-link px-2">Home</a></li>
-    <li class="nav-item"><a href="#" class="nav-link px-2">Back to Top</a></li>
-    <!-- <li class="nav-item"><a href="#" class="nav-link px-2">Admin-Dashboard</a></li>
-    <li class="nav-item"><a href="#" class="nav-link px-2">About</a></li> -->
+    {% if current_user.is_authenticated %}
+      <li class="nav-item"><a href="/home" class="nav-link px-2">Home</a></li>
+      <li class="nav-item"><span class="nav-link px-2">&nbsp;</span></li> <!-- Blank space here -->
+      <li class="nav-item"><a href="#" class="nav-link px-2">Back to Top</a></li>
+    {% else %}
+      <li class="nav-item"><span class="nav-link px-2">&nbsp;</span></li> <!-- Blank space here -->
+    {% endif %}
   </ul>
   <p class="vision text-center">Bulawayo City of Kings, A leading smart transformative City by 2024</p>
   <div class="contact_info">

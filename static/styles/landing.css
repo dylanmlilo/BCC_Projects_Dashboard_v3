@@ -1,5 +1,5 @@
 .landing_container {
-    background: url("../images/stp3072.jpg");
+    background: url("../images/stp3072.jpg ") center;
 }
 
 .landing-heading {
@@ -89,7 +89,7 @@ h3 {
 }
 
 .form-container {
-    margin-top: 30px;
+    margin-top: 45px;
   }
   
 .form-container div {

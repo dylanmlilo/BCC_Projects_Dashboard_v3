@@ -20,30 +20,29 @@ def insert_gis_activity_data():
         a JSON response with an error message.
     """
     if request.method == 'POST':
-        try:
-            activity = request.form.get('activity')
-            output_id = request.form.get('output_id')
-            responsible_person_id = request.form.get('responsible_person_id')
+        activity = request.form.get('activity')
+        output_id = request.form.get('output_id')
+        responsible_person_id = request.form.get('responsible_person_id')
 
-            new_activity = Activity(
-                activity=activity,
-                output_id=output_id,
-                responsible_person_id=responsible_person_id
-            )
+        new_activity = Activity(
+            activity=activity,
+            output_id=output_id,
+            responsible_person_id=responsible_person_id
+        )
+
+        try:
             session.add(new_activity)
             session.commit()
             flash('Data inserted successfully!', 'success')
-            return redirect(url_for('gis_data.gis_data'))
 
         except Exception as e:
-            session.rollback()
             flash('An error occurred while inserting the data. It looks like the output or responsible person you selected is not valid. Please make sure that the output or responsible person exists before adding the activity.', 'error')
-            
-            return redirect(url_for('gis_data.gis_data'))
-        
+            session.rollback()
 
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_activity_bp.route("/update_gis_activity_data/<int:gis_activity_data_id>", methods=['POST'])
@@ -70,15 +69,14 @@ def update_gis_activity_data(gis_activity_data_id):
             else:
                 flash('Activity not found.', 'error')
 
-            return redirect(url_for('gis_data.gis_data'))
-
         except Exception as e:
-            session.rollback()
             flash('An error occurred while updating the data. It looks like the output or responsible person you selected is not valid. Please make sure that the output or responsible person exists before updating the activity.', 'error')
-            return redirect(url_for('gis_data.gis_data'))
+            session.rollback()
 
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_activity_bp.route("/delete_gis_activity_data/<int:gis_activity_data_id>")
@@ -101,14 +99,11 @@ def delete_gis_activity_data(gis_activity_data_id):
         else:
             flash('Activity not found.', 'error')
 
-        return redirect(url_for('gis_data.gis_data'))
-
     except Exception as e:
+        flash('An error occurred while deleting the activity. It seems that the activity is associated with a task that cannot be empty. Please check the tasks associated with the Activity.', 'error')
         session.rollback()
-        flash('An error occurred while deleting the activity. It seems that the activity is associated with an task that cannot be empty. Please check the tasks associated with the Activity.', 'error')
-
-        return redirect(url_for('gis_data.gis_data'))
-
+    
     finally:
         session.close()
 
+    return redirect(url_for('gis_data.gis_data'))

@@ -46,40 +46,15 @@ login_manager.login_view = 'landing.login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    """
-    Loads a user object from the database based on the user ID.
-
-    Args:
-        user_id (int): The ID of the user.
-
-    Returns:
-        Users or None: The user object if found, None otherwise.
-    """
+    """Loads a user object from the database based on the user ID."""
     try:
         user = session.get(Users, int(user_id))
+        return user
     except Exception as e:
+        print(f"An error occurred while loading user: {e}")
         session.rollback()
-        print(f"An error occurred: {e}")
-    finally:
-        session.close()
-    return user
+        return None
 
-
-@app.route('/check_role')
-def check_role():
-    if current_user.is_authenticated:
-        try:
-            user = session.query(Users).filter_by(id=current_user.id).first()
-        except Exception as e:
-            session.rollback()
-            print(f"An error occurred: {e}")
-        finally:
-            session.close()
-        if current_user.has_role(user.role):
-            return "You are logged in as a {}".format(user.role)
-    else:
-        return "You are not logged in"
-    
 
 if __name__ == "__main__":
     app.run(debug=True, port=4000)

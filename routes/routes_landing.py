@@ -19,19 +19,22 @@ def login():
     if form.validate_on_submit():
         try:
             user = session.query(Users).filter_by(username=form.username.data).first()
+
+            if user and check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for('home.index'))
+            else:
+                flash('Invalid username or password', 'error')
+
         except Exception as e:
+            flash(f'An error occurred while processing your request: {str(e)}', 'error')
             session.rollback()
-            print("Error:", e)
+        
         finally:
             session.close()
 
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
-            return redirect(url_for('home.index'))
-        else:
-            flash('Invalid username or password', 'error')
-
     return render_template('landing.html', form=form)
+
 
 
 @landing_bp.route('/logout', strict_slashes=False)

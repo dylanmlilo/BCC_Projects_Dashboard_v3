@@ -2,6 +2,7 @@ from flask import (
     Blueprint, render_template, request, redirect, url_for, flash, jsonify
     )
 from flask_login import login_required
+from decimal import Decimal
 from models.date import today_date
 from models.engine.database import session
 from models.strategic import StrategicTask
@@ -71,69 +72,49 @@ def strategic_planning_data():
 @required_roles('admin', 'admin_struts')
 def insert_strategic_data():
     """
-    Function to handle insert strategic data route.
-
-    Retrieves strategic data list and renders
-    the strategic_planning.html template.
+    Function to handle insertion of strategic data.
 
     Parameters:
     - None
 
     Returns:
-    - Rendered template "strategic_planning.html" with strategic data list.
+    - Redirect to "strategic_planning_data" with success or error message.
     """
     if request.method == 'POST':
         try:
-            task = request.form.get('task')
-            description = request.form.get('description')
-            if description == '':
-                description = None
-            deliverables = request.form.get('deliverables')
-            if deliverables == '':
-                deliverables = None
-            assigned_to = request.form.get('assigned_to')
-            deadline = request.form.get('deadline')
-            if deadline == '':
-                deadline = None
-            status = request.form.get('status')
-            priority = request.form.get('priority')
-            percentage_done = request.form.get('percentage_done')
-            if percentage_done == '':
-                percentage_done = None
-            fixed_cost = request.form.get('fixed_cost')
-            if fixed_cost == '':
-                fixed_cost = None
-            estimated_hours = request.form.get('estimated_cost')
-            if estimated_hours == '':
-                estimated_hours = None
-            actual_hours = request.form.get('actual_cost')
-            if actual_hours == '':
-                actual_hours = None
-            link = request.form.get('link')
-            if link == '':
-                link = None
-
-            new_task = StrategicTask(task=task, description=description,
-                                     deliverables=deliverables,
-                                     assigned_to=assigned_to,
-                                     deadline=deadline, status=status,
-                                     priority=priority,
-                                     percentage_done=percentage_done,
-                                     fixed_cost=fixed_cost,
-                                     estimated_hours=estimated_hours,
-                                     actual_hours=actual_hours, link=link)
+            new_task = StrategicTask(
+                task=request.form.get('task'),
+                description=request.form.get('description') or None,
+                deliverables=request.form.get('deliverables') or None,
+                assigned_to=request.form.get('assigned_to'),
+                deadline=request.form.get('deadline') or None,
+                status=request.form.get('status'),
+                priority=request.form.get('priority'),
+                percentage_done=(Decimal(request.form.get('percentage_done'))
+                                    if request.form.get('percentage_done') else None),
+                fixed_cost=(Decimal(request.form.get('fixed_cost'))
+                            if request.form.get('fixed_cost') else None),
+                estimated_hours=(Decimal(request.form.get('estimated_cost'))
+                                    if request.form.get('estimated_cost') else None),
+                actual_hours=(Decimal(request.form.get('actual_cost'))
+                                if request.form.get('actual_cost') else None),
+                link=request.form.get('link') or None
+            )
+            
             session.add(new_task)
             session.commit()
             flash('Strategic task added successfully!', 'success')
             return redirect(url_for('strategic.strategic_planning_data'))
 
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred while adding the task: {str(e)}', 'error')
+            session.rollback()
             return redirect(url_for('strategic.strategic_planning_data'))
-
+        
         finally:
             session.close()
+        
+    return redirect(url_for('strategic.strategic_planning_data'))
 
 
 @strategic_bp.route("/update_strategic_data/<int:strategic_data_id>", methods=['POST'])
@@ -141,64 +122,48 @@ def insert_strategic_data():
 @required_roles('admin', 'admin_struts')
 def update_strategic_data(strategic_data_id):
     """
-    Function to handle update strategic data route.
-
-    Retrieves strategic data list and renders
-    the strategic_planning.html template.
+    Function to handle updating strategic data.
 
     Parameters:
-    - None
+    - strategic_data_id: The ID of the strategic data to update.
 
     Returns:
-    - Rendered template "strategic_planning.html" with strategic data list.
+    - Redirect to "strategic_planning_data" with success or error message.
     """
-    if request.method == 'POST':
-        try:
-            task = session.query(StrategicTask).filter_by(task_id=strategic_data_id).first()
-            if task:
-                task.task = request.form.get('task')
-                task.description = request.form.get('description')
-                if task.description == '':
-                    task.description = None
-                task.deliverables = request.form.get('deliverables')
-                if task.deliverables == '':
-                    task.deliverables = None
-                task.assigned_to = request.form.get('assigned_to')
-                task.deadline = request.form.get('deadline')
-                if task.deadline == '':
-                    task.deadline = None
-                task.status = request.form.get('status')
-                task.priority = request.form.get('priority')
-                task.percentage_done = request.form.get('percentage_done')
-                if task.percentage_done == '':
-                    task.percentage_done = None
-                task.fixed_cost = request.form.get('fixed_cost')
-                if task.fixed_cost == '':
-                    task.fixed_cost = None
-                task.estimated_hours = request.form.get('estimated_cost')
-                if task.estimated_hours == '':
-                    task.estimated_hours = None
-                task.actual_hours = request.form.get('actual_cost')
-                if task.actual_hours == '':
-                    task.actual_hours = None
-                task.link = request.form.get('link')
-                if task.link == '':
-                    task.link = None
+    try:
+        task = session.query(StrategicTask).filter_by(id=strategic_data_id).first()
+        if task:
+            task.task = request.form.get('task')
+            task.description = request.form.get('description') or None
+            task.deliverables = request.form.get('deliverables') or None
+            task.assigned_to = request.form.get('assigned_to')
+            task.deadline = request.form.get('deadline') or None
+            task.status = request.form.get('status')
+            task.priority = request.form.get('priority')
+            task.percentage_done = (Decimal(request.form.get('percentage_done'))
+                                    if request.form.get('percentage_done') else None)
+            task.fixed_cost = (Decimal(request.form.get('fixed_cost'))
+                                if request.form.get('fixed_cost') else None)
+            task.estimated_hours = (Decimal(request.form.get('estimated_cost'))
+                                    if request.form.get('estimated_cost') else None)
+            task.actual_hours = (Decimal(request.form.get('actual_cost'))
+                                    if request.form.get('actual_cost') else None)
+            task.link = request.form.get('link') or None
 
-                session.commit()
-                flash('Strategic task updated successfully!', 'success')
-                return redirect(url_for('strategic.strategic_planning_data'))
-            else:
-                flash('Task not found.', 'error')
-                return redirect(url_for('strategic.strategic_planning_data'))
-
-        except Exception as e:
-            session.rollback()
-            flash(f'An error occurred while updating the task: {str(e)}', 'error')
+            session.commit()
+            flash('Strategic task updated successfully!', 'success')
+            return redirect(url_for('strategic.strategic_planning_data'))
+        else:
+            flash('Task not found.', 'error')
             return redirect(url_for('strategic.strategic_planning_data'))
 
-        finally:
-            session.close()
+    except Exception as e:
+        flash(f'An error occurred while updating the task: {str(e)}', 'error')
+        session.rollback()
+        return redirect(url_for('strategic.strategic_planning_data'))
+    
+    finally:
+        session.close()
 
 
 @strategic_bp.route("/delete_strategic_data/<int:strategic_data_id>")
@@ -206,32 +171,29 @@ def update_strategic_data(strategic_data_id):
 @required_roles('admin', 'admin_struts')
 def delete_strategic_data(strategic_data_id):
     """
-    Function to handle delete strategic data route.
-
-    Retrieves strategic data list and renders the
-    strategic_planning.html template.
+    Function to handle deleting strategic data.
 
     Parameters:
-    - None
+    - strategic_data_id: The ID of the strategic data to delete.
 
     Returns:
-    - Rendered template "strategic_planning.html" with strategic data list.
+    - Redirect to "strategic_planning_data" with success or error message.
     """
     try:
-        task = session.query(StrategicTask).filter_by(task_id=strategic_data_id).first()
+        task = session.query(StrategicTask).filter_by(id=strategic_data_id).first()
         if task:
             session.delete(task)
             session.commit()
             flash('Strategic task deleted successfully!', 'success')
-            return redirect(url_for('strategic.strategic_planning_data'))
         else:
             flash('Task not found.', 'error')
-            return redirect(url_for('strategic.strategic_planning_data'))
 
-    except Exception as e:
-        session.rollback()
-        flash(f'An error occurred while deleting the task: {str(e)}', 'error')
         return redirect(url_for('strategic.strategic_planning_data'))
 
+    except Exception as e:
+        flash(f'An error occurred while deleting the task: {str(e)}', 'error')
+        session.rollback()
+        return redirect(url_for('strategic.strategic_planning_data'))
+    
     finally:
         session.close()

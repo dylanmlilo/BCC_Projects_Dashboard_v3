@@ -21,23 +21,22 @@ def insert_gis_resp_person_data():
         a JSON response with an error message.
     """
     if request.method == 'POST':
-        try:
-            name = request.form.get('name')
-            designation = request.form.get('designation')
+        name = request.form.get('name')
+        designation = request.form.get('designation')
 
-            new_responsible_person = ResponsiblePerson(name=name, designation=designation)
+        new_responsible_person = ResponsiblePerson(name=name, designation=designation)
+
+        try:
             session.add(new_responsible_person)
             session.commit()
             flash('Data inserted successfully!', 'success')
-            return redirect(url_for('gis_data.gis_data'))
-
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred while inserting data: {str(e)}', 'error')
-            return redirect(url_for('gis_data.gis_data'))
-
+            session.rollback()
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_resp_person_bp.route("/update_gis_resp_person_data/<int:gis_resp_person_data_id>", methods=['POST'])
@@ -63,16 +62,15 @@ def update_gis_resp_person_data(gis_resp_person_data_id):
                 flash('Data updated successfully!', 'success')
             else:
                 flash('Responsible person not found.', 'error')
-
-            return redirect(url_for('gis_data.gis_data'))
-
+        
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred while updating data: {str(e)}', 'error')
-            return redirect(url_for('gis_data.gis_data'))
+            session.rollback()
 
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_resp_person_bp.route("/delete_gis_resp_person_data/<int:gis_resp_person_data_id>")
@@ -96,12 +94,11 @@ def delete_gis_resp_person_data(gis_resp_person_data_id):
         else:
             flash('Responsible person not found.', 'error')
 
-        return redirect(url_for('gis_data.gis_data'))
-
     except Exception as e:
+        flash(f'An error occurred while deleting data: {str(e)}', 'error')
         session.rollback()
-        flash('An error occurred while deleting the responsible person. It seems that the responsible person is associated with an activity that cannot be empty. Please check the activities associated with the responsible person.', 'error')
-        return redirect(url_for('gis_data.gis_data'))
 
     finally:
         session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
