@@ -42,6 +42,7 @@ def logout():
     logout_user()
     return redirect(url_for('landing.login'))
 
+
 @landing_bp.route("/denied_access", strict_slashes=False)
 def denied_access():
     return render_template("denied_access.html")
