@@ -1,10 +1,7 @@
-from flask import abort
 import pandas as pd
 import json
 import plotly
 import plotly_express as px
-import plotly.graph_objects as go
-from models.gis import Task
 from models.gis import gis_data_to_dict_list
 
 

@@ -1,5 +1,3 @@
-from flask import abort
-import pandas as pd
 import json
 import plotly
 import plotly_express as px

@@ -20,22 +20,21 @@ def insert_gis_output_data():
         JSON response with an error message.
     """
     if request.method == 'POST':
-        try:
-            name = request.form.get('name')
+        name = request.form.get('name')
 
-            new_output = Output(name=name)
+        new_output = Output(name=name)
+
+        try:
             session.add(new_output)
             session.commit()
             flash('Data inserted successfully!', 'success')
-            return redirect(url_for('gis_data.gis_data'))
-
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred while inserting data: {str(e)}', 'error')
-            return redirect(url_for('gis_data.gis_data'))
-
+            session.rollback()
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_output_bp.route("/update_gis_output_data/<int:gis_output_data_id>", methods=['POST'])
@@ -58,15 +57,13 @@ def update_gis_output_data(gis_output_data_id):
                 flash('Data updated successfully!', 'success')
             else:
                 flash('Output not found.', 'error')
-            return redirect(url_for('gis_data.gis_data'))
-
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred while updating data: {str(e)}', 'error')
-            return redirect(url_for('gis_data.gis_data'))
-
+            session.rollback()
         finally:
             session.close()
+
+    return redirect(url_for('gis_data.gis_data'))
 
 
 @gis_output_bp.route("/delete_gis_output_data/<int:gis_output_data_id>")
@@ -88,12 +85,10 @@ def delete_gis_output_data(gis_output_data_id):
             flash('Data deleted successfully!', 'success')
         else:
             flash('Output not found.', 'error')
-        return redirect(url_for('gis_data.gis_data'))
-
     except Exception as e:
-        session.rollback()
         flash('An error occurred while deleting the output. It seems that the output is associated with an activity that cannot be empty. Please check the activities associated with the output.', 'error')
-        return redirect(url_for('gis_data.gis_data'))
-
+        session.rollback()
     finally:
         session.close()
+
+    return redirect(url_for('gis_data.gis_data'))

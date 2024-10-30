@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Text, DECIMAL, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy import select
-from models.base import BaseModel
+from models.basemodel import BaseModel
 from models.engine.database import session
 
 
@@ -11,7 +11,6 @@ class ResponsiblePerson(BaseModel):
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
     designation = Column(String(255), nullable=False)
-
 
     @classmethod
     def gis_responsible_person_data_to_dict_list(cls):
@@ -24,15 +23,14 @@ class ResponsiblePerson(BaseModel):
         """
         try:
             query = session.query(cls).all()
+            responsible_person_list = [row.to_dict() for row in query]
+            return responsible_person_list
         except Exception as e:
+            print(f"An error occurred while querying ResponsiblePerson: {e}")
             session.rollback()
-            print(f"An error occurred: {e}")
+            return []
         finally:
             session.close()
-
-        responsible_person_list = [row.to_dict() for row in query]
-
-        return responsible_person_list
 
 
 class Output(BaseModel):
@@ -40,7 +38,6 @@ class Output(BaseModel):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(255), nullable=False)
-
 
     @classmethod
     def gis_output_data_to_dict_list(cls):
@@ -52,16 +49,15 @@ class Output(BaseModel):
             list: A list of dictionaries containing output data.
         """
         try:
-            query = session.query(Output).all()
+            query = session.query(cls).all()
+            output_list = [row.to_dict() for row in query]
+            return output_list
         except Exception as e:
+            print(f"An error occurred while querying Output: {e}")
             session.rollback()
-            print(f"An error occurred: {e}")
+            return []
         finally:
             session.close()
-
-        output_list = [row.to_dict() for row in query]
-
-        return output_list
 
 
 class Activity(BaseModel):
@@ -73,29 +69,27 @@ class Activity(BaseModel):
     responsible_person_id = Column(Integer, ForeignKey("responsiblepeople.id"))
 
     output = relationship("Output", backref="activities")
-    responsible_person = relationship("ResponsiblePerson",
-                                      backref="activities")
-
+    responsible_person = relationship("ResponsiblePerson", backref="activities")
 
     @classmethod
     def gis_activity_data_to_dict_list(cls):
         """
         Queries the database for Activity data and
         converts it to a list of dictionaries.
+
         Returns:
             list: A list of dictionaries containing activity data.
         """
         try:
             query = session.query(cls).all()
+            activity_list = [row.to_dict() for row in query]
+            return activity_list
         except Exception as e:
+            print(f"An error occurred while querying Activity: {e}")
             session.rollback()
-            print(f"An error occurred: {e}")
+            return []
         finally:
             session.close()
-
-        activity_list = [row.to_dict() for row in query]
-
-        return activity_list
 
 
 class Task(BaseModel):
@@ -111,7 +105,6 @@ class Task(BaseModel):
 
     activity = relationship("Activity", backref="tasks")
 
-
     @classmethod
     def gis_task_data_to_dict_list(cls):
         """
@@ -123,14 +116,14 @@ class Task(BaseModel):
         """
         try:
             tasks = session.query(cls).all()
+            task_list = [task.to_dict() for task in tasks]
+            return task_list
         except Exception as e:
+            print(f"An error occurred while querying Task: {e}")
             session.rollback()
-            print(f"An error occurred: {e}")
+            return []
         finally:
             session.close()
-
-        task_list = [task.to_dict() for task in tasks]
-        return task_list
 
 
 def gis_data_to_dict_list():
@@ -158,16 +151,9 @@ def gis_data_to_dict_list():
             Task.status,
             Task.percentage_of_activity,
             Task.link
-        ).select_from(
-            Output
-        ).outerjoin(
-            Activity, Output.id == Activity.output_id
-        ).outerjoin(
-            ResponsiblePerson,
-            Activity.responsible_person_id == ResponsiblePerson.id
-        ).outerjoin(
-            Task, Activity.id == Task.activity_id
-        )
+        ).select_from(Output).outerjoin(Activity, Output.id == Activity.output_id)\
+        .outerjoin(ResponsiblePerson, Activity.responsible_person_id == ResponsiblePerson.id)\
+        .outerjoin(Task, Activity.id == Task.activity_id)
 
         results = session.execute(query).fetchall()
 
@@ -186,8 +172,12 @@ def gis_data_to_dict_list():
             }
             gis_data.append(gis_dict)
 
-    except Exception as e:
-        session.rollback()
-        print(f"An error occurred: {e}")
+        return gis_data
 
-    return gis_data
+    except Exception as e:
+        print(f"An error occurred while querying GIS data: {e}")
+        session.rollback()
+        return []
+    
+    finally:
+        session.close()

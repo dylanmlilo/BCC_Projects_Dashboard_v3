@@ -232,6 +232,7 @@
 
     .landing_container {
         padding-bottom: 50px;
+        background: url("../images/stp3072.jpg ");
     }
 
     .landing_flex {
@@ -448,10 +449,6 @@
         margin-right: 80px;
         height: 450px;
         width: 330px;
-    }
-
-    .landing_container {
-        background: url("../images/stp.jpg") no-repeat center;
     }
 
     .landing_flex {

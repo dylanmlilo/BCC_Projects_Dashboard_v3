@@ -1,7 +1,7 @@
 import unittest
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
-from models.base import Base
+from BCC_Projects_Dashboard_v3.models.basemodel import Base
 
 
 class TestBaseModel(unittest.TestCase):

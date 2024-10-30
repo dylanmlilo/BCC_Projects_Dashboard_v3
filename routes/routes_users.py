@@ -69,9 +69,10 @@ def insert_user_data():
             return redirect(url_for('users.users'))
 
         except Exception as e:
-            session.rollback()
             flash(f'An error occurred: {str(e)}', 'error')
+            session.rollback()
             return redirect(url_for('users.users'))
+        
         finally:
             session.close()
 
@@ -114,11 +115,13 @@ def update_user_data(user_data_id):
                 return redirect(url_for('users.users'))
 
             except Exception as e:
-                session.rollback()
                 flash(f'An error occurred: {str(e)}', 'error')
+                session.rollback()
                 return redirect(url_for('users.users', user_data_id=user_data_id))
+            
             finally:
                 session.close()
+
         else:
             flash('User not found.', 'error')
             return redirect(url_for('users.users'))
@@ -138,47 +141,55 @@ def delete_user_data(user_data_id):
         A redirect to the users page if the user is successfully deleted,
         or a 404 error with an error message if the user is not found.
     """
-    user = session.query(Users).filter_by(id=user_data_id).first()
-    if user:
-        try:
+    try:
+        user = session.query(Users).filter_by(id=user_data_id).first()
+        if user:
             session.delete(user)
             session.commit()
             flash('User deleted successfully!', 'success')
             return redirect(url_for('users.users'))
-        except Exception as e:
-            session.rollback()
-            flash(f'An error occurred while deleting the user: {str(e)}', 'error')
+        else:
+            flash('User not found....', 'error')
             return redirect(url_for('users.users'))
-        finally:
-            session.close()
-    else:
-        flash('User not found....', 'error')
+    except Exception as e:
+        flash(f'An error occurred while deleting the user: {str(e)}', 'error')
+        session.rollback()
         return redirect(url_for('users.users'))
+    finally:
+        session.close()
+ 
     
-
 @users_bp.route("/profile", methods=["GET", "POST"])
 @login_required
 def profile():
-    user = session.query(Users).get(current_user.id)
+    try:
+        user = session.query(Users).get(current_user.id)
+        
+        if request.method == "POST":
+            user.name = request.form.get("name")
+            user.surname = request.form.get("surname")
+            user.username = request.form.get("username")
+            user.email = request.form.get("email")
 
-    if request.method == "POST":
-        user.name = request.form.get("name")
-        user.surname = request.form.get("surname")
-        user.username = request.form.get("username")
-        user.email = request.form.get("email")
+            new_password = request.form.get("password")
+            confirm_password = request.form.get("confirm_password")
 
-        new_password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
+            if new_password:
+                if new_password != confirm_password:
+                    flash("Passwords do not match. Please try again. If not updating password please leave it blank.", "error")
+                    return render_template("user_profile.html", user=user)
 
-        if new_password:
-            if new_password != confirm_password:
-                flash("Passwords do not match. Please try again.", "error")
-                return redirect(url_for("users.profile"))
+                user.password = generate_password_hash(new_password)
 
-            user.password = generate_password_hash(new_password)
+            session.commit()
+            flash("Profile updated successfully!", "success")
+            return redirect(url_for("users.profile"))
 
-        session.commit()
-        flash("Profile updated successfully!", "success")
-        return redirect(url_for("users.profile"))
+    except Exception as e:
+        flash(f"An error occurred while updating the profile: {str(e)}", "error")
+        session.rollback()
+    
+    finally:
+        session.close()
 
     return render_template("user_profile.html", user=user)

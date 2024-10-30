@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Date, DECIMAL, ForeignKey
-from sqlalchemy.orm import relationship
 from models.projects import ProjectManagers
-from models.base import BaseModel
+from models.basemodel import BaseModel
 from models.engine.database import session
 
 
@@ -22,7 +21,6 @@ class StrategicTask(BaseModel):
     actual_hours = Column(DECIMAL(10, 2))
     link = Column(Text)
 
-
     @classmethod
     def strategic_tasks_to_dict_list(cls) -> list:
         try:
@@ -30,21 +28,24 @@ class StrategicTask(BaseModel):
                 session.query(cls, ProjectManagers.name, ProjectManagers.section)
                 .join(ProjectManagers, cls.assigned_to == ProjectManagers.id)
             )
+
+            results = query.all()
+
+            task_list = [
+                {
+                    **task.to_dict(),
+                    'project_manager': manager_name,
+                    'section': manager_section
+                }
+                for task, manager_name, manager_section in results
+            ]
+
+            return task_list
+        
         except Exception as e:
-            session.rollback()
             print(f"An error occurred: {e}")
+            session.rollback()
+            return []
+        
         finally:
             session.close()
-
-        results = query.all()
-
-        task_list = [
-            {
-                **task.StrategicTask.to_dict(),
-                'project_manager': task.name,
-                'section': task.section
-            }
-            for task in results
-        ]
-
-        return task_list
