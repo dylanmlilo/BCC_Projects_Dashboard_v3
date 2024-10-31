@@ -125,13 +125,14 @@ class ProjectsData(BaseModel):
     section = relationship("Section")
 
     @classmethod
-    def projects_data_to_dict_list(cls, contract_type_id=None):
+    def projects_data_to_dict_list(cls, contract_type_id=None, section_id=None):
         """
         Convert SQLAlchemy query results into a list of dictionaries.
         Exclude the _sa_instance_state attribute.
 
         Args:
             contract_type_id (int, optional): Filter results by contract_type_id. Defaults to None.
+            section_id (int, optional): Filter results by section_id. Defaults to None.
 
         Returns:
             list: A list of dictionaries containing projects data with related data
@@ -139,6 +140,9 @@ class ProjectsData(BaseModel):
         """
         if contract_type_id and not isinstance(contract_type_id, int):
             raise ValueError("Invalid contract_type_id")
+        
+        if section_id and not isinstance(section_id, int):
+            raise ValueError("Invalid section_id")
         
         try:
             query = (
@@ -150,6 +154,9 @@ class ProjectsData(BaseModel):
             
             if contract_type_id:
                 query = query.filter(cls.contract_type_id == contract_type_id)
+            
+            if section_id:
+                query = query.filter(cls.section_id == section_id)
 
             projects_data = query.all()
 

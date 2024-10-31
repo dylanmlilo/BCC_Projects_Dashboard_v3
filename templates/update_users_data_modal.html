@@ -7,7 +7,7 @@
           <h5 class="modal-title" id="updateUsersDataModalLabel">Edit Data</h5>
         </div>
         <div class="modal-body">
-          <form action="{{ url_for('users.update_user_data', user_data_id=user.id) }}" method="post" onsubmit="return validatePassword(this);">
+          <form action="{{ url_for('users.update_user_data', user_data_id=user.id) }}" method="post" onsubmit="return validateUserPassword(this);">
             <div class="form-group">
                 <label> Name <span style="color: red;">*</span></label>
                 <input type="text" class="form-control" name="name" value="{{user.name}}" required>
