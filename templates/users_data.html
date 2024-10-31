@@ -74,21 +74,8 @@
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script src="https://cdn.datatables.net/inline-rows/2.0.8/inline-rows.js"></script>
+<script src="{{ url_for('static', filename='scripts/user_password_validation.js') }}"></script>
 <script>
-    function validatePassword(form) {
-        const password = form.password.value;
-
-        if (password === "") {
-            return true;
-        }
-
-        if (password.length < 8 || password.length > 20) {
-            alert("Password must be between 8 and 20 characters long.");
-            return false;
-        }
-
-        return true;
-    }
 
     // Document ready function for initializing DataTable
     $(document).ready(function() {

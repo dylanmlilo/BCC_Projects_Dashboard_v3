@@ -5,10 +5,10 @@ from models.date import today_date
 from plot_functions.servicing_page_charts import plot_servicing_page_charts
 
 
-sections_bp = Blueprint('sections', __name__)
+contract_type_bp = Blueprint('sections', __name__)
 
 
-@sections_bp.route("/Servicing", strict_slashes=False)
+@contract_type_bp.route("/Servicing", strict_slashes=False)
 @login_required
 def servicing():
     """
@@ -22,7 +22,7 @@ def servicing():
     Returns:
         Flask.Response: The rendered template.
     """
-    projects_data = ProjectsData.projects_data_to_dict_list(1)
+    projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=1)
     servicing_data_JSON = plot_servicing_page_charts()
     formatted_date = today_date()
     return render_template("servicing.html", projects_data=projects_data,
@@ -30,7 +30,7 @@ def servicing():
                            servicing_data_JSON=servicing_data_JSON)
 
 
-@sections_bp.route("/Goods", strict_slashes=True)
+@contract_type_bp.route("/Goods", strict_slashes=True)
 @login_required
 def goods():
     """
@@ -46,13 +46,13 @@ def goods():
     - Rendered template "goods.html" with today's date and projects data.
 
     """
-    projects_data = ProjectsData.projects_data_to_dict_list(3)
+    projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=3)
     formatted_date = today_date()
     return render_template("goods.html", today_date=formatted_date,
                            projects_data=projects_data)
 
 
-@sections_bp.route("/Works", strict_slashes=False)
+@contract_type_bp.route("/Works", strict_slashes=False)
 @login_required
 def works():
     """
@@ -67,13 +67,13 @@ def works():
     Returns:
     - Rendered template "works.html" with today's date and projects data.
     """
-    projects_data = ProjectsData.projects_data_to_dict_list(4)
+    projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=4)
     formatted_date = today_date()
     return render_template("works.html", today_date=formatted_date,
                            projects_data=projects_data)
 
 
-@sections_bp.route("/Services", strict_slashes=False)
+@contract_type_bp.route("/Services", strict_slashes=False)
 @login_required
 def services():
     """
@@ -89,7 +89,7 @@ def services():
     - Rendered template "services.html" with today's date and projects data.
 
     """
-    projects_data = ProjectsData.projects_data_to_dict_list(2)
+    projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=2)
     formatted_date = today_date()
     return render_template("services.html", today_date=formatted_date,
                            projects_data=projects_data)
