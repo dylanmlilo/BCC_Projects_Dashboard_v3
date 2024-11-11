@@ -62,7 +62,6 @@ h3 {
 .login_container, .admin_dashboard, .denied_access_container {
     background: linear-gradient(to top left, rgba(8, 58, 103, 0.95) 50%, rgb(142, 149, 150) 50%);
     width: 80%;
-    height: 370px;
     margin: 60px auto;
     border-radius: 20px;
     color: whitesmoke;

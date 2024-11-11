@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, Date, DECIMAL, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, Date, DECIMAL, ForeignKey, func
 from sqlalchemy.orm import relationship
 from models.basemodel import BaseModel
 from models.engine.database import session
@@ -33,28 +33,23 @@ class ProjectManagers(BaseModel):
 
     @classmethod
     def project_managers_to_dict_list(cls, section_name=None):
-        """
-        Convert SQLAlchemy query results into a list of dictionaries.
-        Exclude the _sa_instance_state attribute.
-
-        Args:
-            section_name (str, optional): Name of the section to filter project managers. Defaults to None.
-
-        Returns:
-            list: A list of dictionaries containing project managers.
-        """
         try:
-            query_filter = (cls.section == section_name) if section_name else True
-            project_managers = session.query(cls).filter(query_filter).all()
+            query = session.query(cls)
+            
+            if section_name:
+                query = query.filter(func.lower(cls.section) == section_name.strip().lower())
+            
+            project_managers = query.all()
             result_list = [pm.to_dict() for pm in project_managers]
             return result_list
+
         except Exception as e:
             print(f"An error occurred: {e}")
             session.rollback()
             return []
+            
         finally:
             session.close()
-
 
 class ContractType(BaseModel):
     __tablename__ = 'contract_type'

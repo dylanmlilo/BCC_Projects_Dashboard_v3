@@ -81,12 +81,26 @@
     </div>
   </div>
   <div class="charts-container">
+    <div class="alert alert-info mt-4" role="alert">
+      <strong>Physical Progress of Projects:</strong> Only projects with measurable and trackable physical progress are shown in this section. This data represents the on-ground progress in terms of construction, installation, and other physical activities.
+    </div>
     <div id="graph-container1" class="graph-container"></div>
+    <div class="alert alert-warning mt-4" role="alert">
+      <strong>Financial Progress of Projects:</strong> This section provides insights into the financial milestones of projects with trackable financial progress, highlighting expenditure, payments, and overall financial tracking based on project budgets.
+  </div>
     <div id="graph-container2" class="graph-container"></div>
+    <div class="alert alert-success mt-4" role="alert">
+      <strong>Section-Wise Project Progress:</strong> 
+      This section displays the overall progress of projects grouped by section. It shows the total progress percentage for each project, regardless of whether it has physical or financial progress data.
+  </div>
     <div class="charts-container">
       {% for chart_data in graph6JSON %}
           <div id="section_graph-container{{ loop.index }}" class="graph-container"></div>
       {% endfor %}
+    </div>
+    <div class="alert alert-primary mt-4" role="alert">
+      <strong>Project Distribution Overview:</strong> 
+      This section provides insights into the distribution of projects by year, by project manager, and by project status. It highlights how projects are allocated over time, managed by different team leaders, and classified based on their current status.
     </div>
     <div class="pie_container">
       <div id="graph-container3" class="graph-container"></div>

@@ -251,14 +251,20 @@ h3 {
 /* Admin Dashboard Styles */
 
 
+.admin_nav_container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+}
+
 .admin_dashboard .admin_nav_container {
-    display: flex;
-    flex-direction: row;
+    padding-bottom: 30px;
 }
 
 .admin_dashboard .admin_nav_container .admin_nav {
     margin: 10px 10px;
-    width: 60%;
+    width: 70%;
+    align-content: center;
 }
 
 .admin-dashboard_select {

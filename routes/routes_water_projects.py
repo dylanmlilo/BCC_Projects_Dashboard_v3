@@ -15,7 +15,7 @@ water_projects_bp = Blueprint('water_projects', __name__)
 @water_projects_bp.route("/water_projects_data", strict_slashes=False)
 @login_required
 @required_roles('admin', 'admin_water')
-def projects_data():
+def water_projects_data():
     """
     Function to handle water projects data retrieval and rendering.
 
@@ -32,10 +32,10 @@ def projects_data():
     """
     water_projects_data = ProjectsData.projects_data_to_dict_list(section_id=2)
     project_managers = (
-    ProjectManagers.project_managers_to_dict_list("water")
+    ProjectManagers.project_managers_to_dict_list("Water")
     )
-    sections = Section.section_data_to_dict_list()
+    # sections = Section.section_data_to_dict_list()
     formatted_date = today_date()
     return render_template("water_projects_data.html", today_date=formatted_date,
-                           water_projects_data=water_projects_data, sections=sections,
+                           water_projects_data=water_projects_data,
                            project_managers=project_managers)

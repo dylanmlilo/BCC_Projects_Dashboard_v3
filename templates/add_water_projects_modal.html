@@ -1,0 +1,157 @@
+{% block content %}
+<div id="myWaterProjectsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add New Data</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('projects.insert_projects_data') }}" method="post">
+                    <div class="form-group">
+                        <label>Contract Number <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" name="contract_number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contract Name <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" name="contract_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label> Select Contract Type <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="contract_type_id" required>
+                            <option value="1">Servicing</option>
+                            <option value="2">Services</option>
+                            <option value="3">Goods</option>
+                            <option value="4">Works</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Project Manager <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="project_manager_id" required>
+                            {% for manager in project_managers %}
+                                <option value="{{ manager.id }}">{{ manager.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Section <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" value="Water" required readonly>
+                        <input type="hidden" name="section_id" value="{{ project_data.section_id}}">
+                    </div>
+                    <div class="form-group">
+                        <label>Contractor</label>
+                        <input type="text" class="form-control" name="contractor">
+                    </div>
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="text" class="form-control" name="year">
+                    </div>
+                    <div class="form-group">
+                        <label>Date Contract Signed</label>
+                        <input type="date" class="form-control" name="date_contract_signed">
+                    </div>
+                    <div class="form-group">
+                        <label>Date Contract Signed by BCC</label>
+                        <input type="date" class="form-control" name="date_contract_signed_by_bcc">
+                    </div>
+                    <div class="form-group">
+                        <label>Early Start Date</label>
+                        <input type="date" class="form-control" name="early_start_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Contract Duration in Weeks</label>
+                        <input type="number" class="form-control" name="contract_duration_weeks">
+                    </div>
+                    <div class="form-group">
+                        <label>Contract Duration in Months</label>
+                        <input type="number" class="form-control" name="contract_duration_months">
+                    </div>
+                    <div class="form-group">
+                        <label>Early Finish Date</label>
+                        <input type="date" class="form-control" name="early_finish_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Extension of Time</label>
+                        <input type="date" class="form-control" name="extension_of_time">
+                    </div>
+                    <div class="form-group">
+                        <label> Project Status <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="project_status">
+                            <option value="Completed">Completed</option>
+                            <option value="Stopped">Stopped</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Retendered">Retendered</option>
+                            <option value="Yet to start">Yet to start</option>
+                        </select>
+                    </div>
+                    <div class="Contract value including 10% contingency">
+                        <label>Contract Value Including 10% Contingency</label>
+                        <input type="number" class="form-control" name="contract_value_including_ten_percent_contingency">
+                    </div>
+                    <div class="form-group">
+                        <label>Performance Guarantee Value</label>
+                        <input type="number" class="form-control" name="performance_guarantee_value">
+                    </div>
+                    <div class="form-group">
+                        <label>Performance Guarantee Expiry Date</label>
+                        <input type="date" class="form-control" name="performance_guarantee_expiry_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Advance Payment Value</label>
+                        <input type="number" class="form-control" name="advance_payment_value">
+                    </div>
+                    <div class="form-group">
+                        <label>Advance Payment Guarantee Expiry Date</label>
+                        <input type="date" class="form-control" name="advance_payment_guarantee_expiry_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Total Certified Interim Payments to Date</label>
+                        <input type="number" class="form-control" name="total_certified_interim_payments_to_date">
+                    </div>
+                    <div class="form-group">
+                        <label>Financial Progress Percentage</label>
+                        <input type="number" class="form-control" name="financial_progress_percentage">
+                    </div>
+                    <div class="form-group">
+                        <label>Roads Progress</label>
+                        <input type="number" class="form-control" name="roads_progress">
+                    </div>
+                    <div class="form-group">
+                        <label>Water Progress</label>
+                        <input type="number" class="form-control" name="water_progress">
+                    </div>
+                    <div class="form-group">
+                        <label>Sewer Progress</label>
+                        <input type="number" class="form-control" name="sewer_progress">
+                    </div>
+                    <div class="form-group">
+                        <label>Storm Drainage Progress</label>
+                        <input type="number" class="form-control" name="storm_drainage_progress">
+                    </div>
+                    <div class="form-group">
+                        <label>Public Lighting Progress</label>
+                        <input type="number" class="form-control" name="public_lighting_progress">
+                    </div> 
+                    <div class="form-group">
+                        <label>Physical Progress Percentage</label>
+                        <input type="number" class="form-control" name="physical_progress_percentage">
+                    </div>
+                    <div class="form-group">
+                        <label>Tax Clearance Validation</label>
+                        <input type="text" class="form-control" name="tax_clearance_validation">
+                    </div>
+                    <div class="form-group">
+                        <label>Link</label>
+                        <input type="text" class="form-control" name="link">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

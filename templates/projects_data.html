@@ -27,7 +27,7 @@
                     <table id="projects_project_manager_table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr class="table-dark">
-                                <th>Project Manager ID</th>
+                                <th>N0.</th>
                                 <th>Project Manager</th>
                                 <th>Section</th>
                                 <th>Actions</th>
@@ -36,7 +36,7 @@
                         <tbody>
                             {% for project_manager in project_managers %}
                             <tr>
-                                <td>{{ project_manager.id }}</td>
+                                <td>{{ loop.index }}</td>
                                 <td>{{ project_manager.name or '' }}</td>
                                 <td>{{ project_manager.section or '' }}</td>
                                 <td>

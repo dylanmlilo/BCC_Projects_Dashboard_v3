@@ -125,10 +125,6 @@
         margin: 90px auto;
     }
 
-    .admin_dashboard {
-        height: 550px;
-    }
-
     .admin_dashboard .admin_nav_container {
         display: flex;
         flex-direction: column;
@@ -185,10 +181,6 @@
     .graph-container {
         width: 100%;
         margin: 30px 5px;
-    }
-
-    .admin_dashboard {
-        height: 400px;
     }
 
     .main_container .gauge_charts_container {
@@ -258,10 +250,6 @@
 
     .about_container {
         margin: 90px auto;
-    }
-
-    .admin_dashboard {
-        height: 500px;
     }
 
     .admin_dashboard .admin_nav_container {
@@ -382,10 +370,6 @@
         margin: 100px auto;
     }
 
-    .admin_dashboard {
-        height: 500px;
-    }
-
     .admin_dashboard .admin_nav_container {
         display: flex;
         flex-direction: column;
@@ -442,12 +426,12 @@
     }
 
     .admin_dashboard {
-        height: 300px;
+        height: 420px;
     }
 
     .login_container {
         margin-right: 80px;
-        height: 450px;
+        height: 430px;
         width: 330px;
     }
 
@@ -473,7 +457,7 @@
 
     .admin_dashboard .admin_nav {
         margin: 10px 10px;
-        width: 60%;
+        width: 70%;
     }
 }
 
@@ -516,10 +500,6 @@
     /* .stats-container.gis{
         background: url("../images/gis2500.jpg") no-repeat;
     } */
-
-    .admin_dashboard {
-        height: 280px;
-    }
 
     .login_container {
         margin-left: 20px;

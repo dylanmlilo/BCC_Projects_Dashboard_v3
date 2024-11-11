@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from models.engine.database import session
 from models.users import Users
 from routes.routes_home import home_bp
@@ -16,6 +16,9 @@ from routes.routes_APIs import api_bp
 from routes.routes_gis_output import gis_output_bp
 from routes.routes_users import users_bp
 from routes.routes_water_projects import water_projects_bp
+from routes.routes_electromechanical_projects import electromechanical_projects_bp
+from routes.routes_sanitation_projects import sanitation_projects_bp
+from routes.routes_water_quality_projects import water_quality_projects_bp
 import os
 from dotenv import load_dotenv
 
@@ -38,6 +41,9 @@ app.register_blueprint(projects_bp)
 app.register_blueprint(api_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(water_projects_bp)
+app.register_blueprint(electromechanical_projects_bp)
+app.register_blueprint(sanitation_projects_bp)
+app.register_blueprint(water_quality_projects_bp)
 app.secret_key = os.getenv("SECRET_KEY")
 
 
