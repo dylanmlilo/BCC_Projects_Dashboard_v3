@@ -1,0 +1,160 @@
+{% block content %}
+<!-- Update Water Projects Modal -->
+<div class="modal fade" id="updateWaterQualityProjectsModal{{ project_data.id }}" tabindex="-1" role="dialog" aria-labelledby="updateWaterQualityProjectsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateWaterQualityProjectsModalLabel">Edit Data</h5>
+        </div>
+        <div class="modal-body">
+          <form action="{{ url_for('projects.update_projects_data', projects_data_id=project_data.id) }}" method="post">
+            <div class="form-group">
+                <label>Contract Number <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" name="contract_number" value="{{ project_data.contract_number }}" required>
+            </div>
+            <div class="form-group">
+                <label>Contract Name <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" name="contract_name" value="{{ project_data.contract_name }}" required>
+            </div>
+            <div class="form-group">
+                <label>Select Contract Type <span style="color: red;">*</span></label>
+                <select class="form-control form-select" name="contract_type_id" required>
+                    <option value="1" {% if project_data.contract_type_id == 1 %}selected{% endif %}>Servicing</option>
+                    <option value="2" {% if project_data.contract_type_id == 2 %}selected{% endif %}>Services</option>
+                    <option value="3" {% if project_data.contract_type_id == 3 %}selected{% endif %}>Goods</option>
+                    <option value="4" {% if project_data.contract_type_id == 4 %}selected{% endif %}>Works</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Select Project Manager <span style="color: red;">*</span></label>
+                <select class="form-control form-select" name="project_manager_id" required>
+                    {% for manager in project_managers %}
+                        <option value="{{ manager.id }}" {% if project_data.project_manager_id == manager.id %}selected{% endif %}>
+                            {{ manager.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Section <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" value="{{ project_data.section}}" required readonly>
+                <input type="hidden" name="section_id" value="{{ project_data.section_id}}">
+            </div>
+            <div class="form-group">
+                <label>Contractor</label>
+                <input type="text" class="form-control" name="contractor" value="{{ project_data.contractor }}">
+            </div>
+            <div class="form-group">
+                <label>Year</label>
+                <input type="text" class="form-control" name="year" value="{{ project_data.year }}">
+            </div>
+            <div class="form-group">
+                <label>Date Contract Signed</label>
+                <input type="date" class="form-control" name="date_contract_signed" value="{{ project_data.date_contract_signed.strftime('%Y-%m-%d') if project_data.date_contract_signed else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Date Contract Signed by BCC</label>
+                <input type="date" class="form-control" name="date_contract_signed_by_bcc" value="{{ project_data.date_contract_signed_by_bcc.strftime('%Y-%m-%d') if project_data.date_contract_signed_by_bcc else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Early Start Date</label>
+                <input type="date" class="form-control" name="early_start_date" value="{{ project_data.early_start_date.strftime('%Y-%m-%d') if project_data.early_start_date else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Contract Duration (Weeks)</label>
+                <input type="number" class="form-control" name="contract_duration_weeks" value="{{ project_data.contract_duration_weeks }}">
+            </div>
+            <div class="form-group">
+                <label>Contract Duration (Months)</label>
+                <input type="number" class="form-control" name="contract_duration_months" value="{{ project_data.contract_duration_months }}">
+            </div>
+            <div class="form-group">
+                <label>Early Finish Date</label>
+                <input type="date" class="form-control" name="early_finish_date" value="{{ project_data.early_finish_date.strftime('%Y-%m-%d') if project_data.early_finish_date else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Extension of Time</label>
+                <input type="number" class="form-control" name="extension_of_time" value="{{ project_data.extension_of_time }}">
+            </div>
+            <div class="form-group">
+                <label>Project Status <span style="color: red;">*</span></label>
+                <select class="form-control form-select" name="project_status" required>
+                    <option value="Completed" {% if project_data.project_status == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Stopped" {% if project_data.project_status == 'Stopped' %}selected{% endif %}>Stopped</option>
+                    <option value="In Progress" {% if project_data.project_status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                    <option value="Retendered" {% if project_data.project_status == 'Retendered' %}selected{% endif %}>Retendered</option>
+                    <option value="Yet to start" {% if project_data.project_status == 'Yet to start' %}selected{% endif %}>Yet to start</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Contract Value (Including 10% Contingency)</label>
+                <input type="number" step="0.01" class="form-control" name="contract_value_including_ten_percent_contingency" value="{{ project_data.contract_value_including_ten_percent_contingency }}">
+            </div>
+            <div class="form-group">
+                <label>Performance Guarantee Value</label>
+                <input type="number" step="0.01" class="form-control" name="performance_guarantee_value" value="{{ project_data.performance_guarantee_value }}">
+            </div>
+            <div class="form-group">
+                <label>Performance Guarantee Expiry Date</label>
+                <input type="date" class="form-control" name="performance_guarantee_expiry_date" value="{{ project_data.performance_guarantee_expiry_date.strftime('%Y-%m-%d') if project_data.performance_guarantee_expiry_date else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Advance Payment Value</label>
+                <input type="number" step="0.01" class="form-control" name="advance_payment_value" value="{{ project_data.advance_payment_value }}">
+            </div>
+            <div class="form-group">
+                <label>Advance Payment Guarantee Expiry Date</label>
+                <input type="date" class="form-control" name="advance_payment_guarantee_expiry_date" value="{{ project_data.advance_payment_guarantee_expiry_date.strftime('%Y-%m-%d') if project_data.advance_payment_guarantee_expiry_date else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Total Certified Interim Payments to Date</label>
+                <input type="number" step="0.01" class="form-control" name="total_certified_interim_payments_to_date" value="{{ project_data.total_certified_interim_payments_to_date }}">
+            </div>
+            <div class="form-group">
+                <label>Financial Progress Percentage</label>
+                <input type="number" step="0.01" class="form-control" name="financial_progress_percentage" value="{{ project_data.financial_progress_percentage }}">
+            </div>
+            <div class="form-group">
+              <label>Roads Progress</label>
+              <input type="number" step="0.01" class="form-control" name="roads_progress" value="{{ project_data.roads_progress }}">
+          </div>
+          <div class="form-group">
+              <label>Water Progress</label>
+              <input type="number" step="0.01" class="form-control" name="water_progress" value="{{ project_data.water_progress }}">
+          </div>
+          <div class="form-group">
+              <label>Sewer Progress</label>
+              <input type="number" step="0.01" class="form-control" name="sewer_progress" value="{{ project_data.sewer_progress }}">
+          </div>
+          <div class="form-group">
+              <label>Storm Drainage Progress</label>
+              <input type="number" step="0.01" class="form-control" name="storm_drainage_progress" value="{{ project_data.storm_drainage_progress }}">
+          </div>
+          <div class="form-group">
+              <label>Public Lighting Progress</label>
+              <input type="number" step="0.01" class="form-control" name="public_lighting_progress" value="{{ project_data.public_lighting_progress }}">
+          </div> 
+            <div class="form-group">
+                <label>Physical Progress Percentage</label>
+                <input type="number" step="0.01" class="form-control" name="physical_progress_percentage" value="{{ project_data.physical_progress_percentage }}">
+            </div>
+            <div class="form-group">
+                <label>Tax Clearance Validation</label>
+                <input type="text" class="form-control" name="tax_clearance_validation" value="{{ project_data.tax_clearance_validation }}">
+            </div>
+            <div class="form-group">
+                <label>Link</label>
+                <input type="url" class="form-control" name="link" value="{{ project_data.link }}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Update Project Data</button>
+            </div>
+          </form>        
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

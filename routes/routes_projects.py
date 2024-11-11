@@ -188,17 +188,20 @@ def insert_projects_data():
             session.add(new_data)
             session.commit()
             flash('Projects Data inserted successfully!', 'success')
-            return redirect(url_for('projects.projects_data'))
+            return redirect(request.referrer)
+
         
         except Exception as e:
             flash(f'An error occurred while inserting the projects data: {str(e)}', 'error')
             session.rollback()
-            return redirect(url_for('projects.projects_data'))
+            return redirect(request.referrer)
+
 
         finally:
             session.rollback()
 
-    return redirect(url_for('projects.projects_data'))
+    return redirect(request.referrer)
+
 
 
 @projects_bp.route('/update_projects_data/<int:projects_data_id>', methods=['POST'])
@@ -306,17 +309,17 @@ def update_projects_data(projects_data_id):
 
             session.commit()
             flash('Projects Data updated successfully!', 'success')
-            return redirect(url_for('projects.projects_data'))
+            return redirect(request.referrer)
         
         except Exception as e:
             flash(f'An error occurred while updating the projects data: {str(e)}', 'error')
             session.rollback()
-            return redirect(url_for('projects.projects_data'))
+            return redirect(request.referrer)
         
         finally:
             session.close()
 
-    return redirect(url_for('projects.projects_data'))
+    return redirect(request.referrer)
 
 
 @projects_bp.route("/delete_projects_data/<int:project_data_id>")
@@ -336,9 +339,9 @@ def delete_projects_data(project_data_id):
     except Exception as e:
         flash(f'An error occurred while deleting the projects data: {str(e)}', 'error')
         session.rollback()
-        return redirect(url_for('projects.projects_data'))
+        return redirect(request.referrer)
     
     finally:
         session.close()
         
-    return redirect(url_for('projects.projects_data'))
+    return redirect(request.referrer)
