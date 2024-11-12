@@ -60,7 +60,7 @@ Next Steps
 
 Conclusion
 
-Developing the Nando Construction Project Management Dashboard was an exciting and rewarding experience. I had the opportunity to integrate a variety of technologies and create a functional product that could be adapted for use by real companies. Looking forward, I am excited to continue refining the project, improving its performance, and adding new features.
+Developing the BCC Project Management Dashboard was an exciting and rewarding experience. I had the opportunity to integrate a variety of technologies and create a functional product that could be adapted for use by real companies. Looking forward, I am excited to continue refining the project, improving its performance, and adding new features.
 
 Installation & Setup
 Requirements
@@ -75,8 +75,7 @@ Steps
 
     bash
 
-    git clone https://github.com/dylanmlilo/alx-project-management-dashboard.git
-
+    git clone https://github.com/dylanmlilo/BCC_Projects_Dashboard_v3.git
 Install dependencies:
 
     bash
@@ -89,4 +88,4 @@ Run the project on your local server:
 
     bash
 
-    flask run
+    python app.py
