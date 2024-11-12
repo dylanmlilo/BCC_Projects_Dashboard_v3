@@ -125,32 +125,40 @@ h3 {
     text-align: center;
     padding-top: 80px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-shadow: 4px 4px 16px #000
+    text-shadow: 1px 1px 1px #000
 }
 
-.stats-container.serviving {
+.stats-container.projects {
     background: url("../images/excavator1920.jpg") no-repeat center;
+}
+
+.stats-container.sanitation {
+    background: url("../images/sewer-treatment-plant-wastewater1920.jpg") no-repeat center;
 }
 
 .stats-container.gis {
     background: url("../images/drone1920.jpg") no-repeat center;
 }
 
-.stats-container.goods {
-    background: url("../images/goods1900.jpg") no-repeat center;
+.stats-container.water {
+    background: url("../images/water-treatment-plant1920.jpg") no-repeat center;
 }
 
-.stats-container.works{
-    background: url("../images/excavator1920.jpg") no-repeat center;
+.stats-container.water_quality{
+    background: url("../images/water-quality-laboratory1920.jpg") no-repeat center;
 }
 
-.stats-container.services {
-    background: url("../images/excavator1920.jpg") no-repeat center;
+.stats-container.electromechanical {
+    background: url("../images/pump5.jpg") no-repeat center;
 }
 
 .stats-container h1 {
     font-size: 4rem;
     color: #fff;
+}
+
+.stats-container .water_quality_h1 {
+    color: #73a4c3;
 }
 
 .stats_percentage_container .stats_percentage {
