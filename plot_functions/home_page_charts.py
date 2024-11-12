@@ -50,12 +50,12 @@ def plot_home_page_charts():
         df_filtered_fig2,
         x='contract_number',
         y='financial_progress_percentage',
-        color='contract_type',
+        color='project_manager',
         title="Financial Progress of Works",
         hover_data={'contract_name': True}
     )
     fig2.update_layout(
-        legend_title_text='Contract Type',
+        legend_title_text='Project Managers',
         title={'x': 0.5, 'y': 0.93, 'font': {'size': 25, 'family': 'Arial'}},
         xaxis_title_text="Contract Number",
         yaxis_title_text="Financial Progress (%)",

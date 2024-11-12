@@ -80,6 +80,7 @@
     // Document ready function for initializing DataTable
     $(document).ready(function() {
         $('#user_data_table').DataTable({
+            "fixedHeader": true, // Keeps header fixed when scrolling horizontally
             // "paging": true, // Disable pagination for inline editing
             "ordering": true, // Enable sorting
             // "info": false, // Disable info display for inline editing

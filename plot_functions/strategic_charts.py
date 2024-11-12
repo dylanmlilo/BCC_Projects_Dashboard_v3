@@ -35,16 +35,16 @@ def plot_strategic_tasks_by_manager():
             x="display_task",  # Use conditionally shortened task names
             y="percentage_done",
             color="status",
-            title=f"Strategic Tasks for {manager} - Percentage Completion",
+            title=f"Strategic Planning Tasks for {manager}",
             color_discrete_map=color_map,
             hover_name="hover_text"  # Full task name in hover tooltip
         )
 
         fig.update_layout(
             legend_title="Status",
-            bargap=0.6,
+            bargap=0.8,
             title={
-                'text': f"Strategic Tasks for {manager} - Percentage Completion",
+                'text': f"Strategic Planning Tasks for {manager}",
                 'x': 0.5,
                 'y': 0.9,
                 'font': {

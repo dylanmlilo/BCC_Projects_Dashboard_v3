@@ -11,9 +11,32 @@ from models.projects import (
 from models.decorators import required_roles
 from datetime import datetime
 from decimal import Decimal
+from plot_functions.servicing_page_charts import plot_servicing_page_charts
 
 
 projects_bp = Blueprint('projects', __name__)
+
+
+@projects_bp.route("/projects", strict_slashes=False)
+@login_required
+def projects():
+    """
+    Renders the 'projects.html' template with projects section
+    data.
+
+    This function fetches project data for projects data,
+    generates a bar chart,
+    and renders the 'projects.html' template with the necessary data.
+
+    Returns:
+        Flask.Response: The rendered template.
+    """
+    projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=1)
+    servicing_data_JSON = plot_servicing_page_charts()
+    formatted_date = today_date()
+    return render_template("projects.html", projects_data=projects_data,
+                           today_date=formatted_date,
+                           servicing_data_JSON=servicing_data_JSON)
 
 
 @projects_bp.route("/projects_data", strict_slashes=False)
