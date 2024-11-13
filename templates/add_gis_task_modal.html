@@ -8,16 +8,18 @@
             <div class="modal-body">
                 <form action="{{ url_for('gis_task.insert_gis_task_data') }}" method="post">
                     <div class="form-group">
-                        <label>Activity ID <span style="color: red;">*</span></label>
-                        <input type="number" class="form-control" name="activity_id" required>
+                        <label>Select Activity <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="activity_id" required>
+                          {% for data in gis_activity_data %}
+                            <option value="{{ data.id }}" {% if loop.index == 1 %}selected{% endif %}>
+                              {{ data.activity }}
+                            </option>
+                          {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Task Description <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="task_description" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Percentage Done</label>
-                        <input type="number" class="form-control" name="percentage_of_activity">
+                        <input type="text" class="form-control" name="description" required>
                     </div>
                     <div class="form-group">
                         <label>Status <span style="color: red;">*</span></label>
@@ -27,6 +29,10 @@
                             <option value="Overdue">Overdue</option>
                             <option value="Not Started">Not Started</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Percentage Done</label>
+                        <input type="number" class="form-control" name="percentage_of_activity">
                     </div>
                     <div class="form-group">
                         <label>Link</label>

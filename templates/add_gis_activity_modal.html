@@ -12,12 +12,24 @@
                         <input type="text" class="form-control" name="activity" required>
                     </div>
                     <div class="form-group">
-                        <label>Output ID <span style="color: red;">*</span></label>
-                        <input type="number" class="form-control" name="output_id" required>
+                        <label>Select Output <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="output_id" required>
+                          {% for data in gis_output_data %}
+                            <option value="{{ data.id }}" {% if loop.index == 1 %}selected{% endif %}>
+                              {{ data.name }}
+                            </option>
+                          {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Responsible Person ID <span style="color: red;">*</span></label>
-                        <input type="number" class="form-control" name="responsible_person_id" required>
+                        <label>Select Responsible Person <span style="color: red;">*</span></label>
+                        <select class="form-control form-select" name="responsible_person_id" required>
+                          {% for data in gis_responsible_person_data %}
+                            <option value="{{ data.id }}" {% if loop.index == 1 %}selected{% endif %}>
+                              {{ data.name }}
+                            </option>
+                          {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>

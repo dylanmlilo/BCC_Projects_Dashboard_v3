@@ -11,7 +11,7 @@
         <table id="gis_table" class="table table-hover table-bordered table-striped">
             <thead>
                 <tr class="table-dark">
-                    <th>OUT PUT</th>
+                    <th>OUTPUT</th>
                     <th>ACTIVITY<br>Activities add up to 100% of the Output</th>
                     <th>TASK<br>Tasks add up to 100% of the Activity</th>
                     <th>Status</th>
@@ -68,7 +68,7 @@
 <script>
     $(document).ready(function() {
         $('#gis_table').DataTable({
-            ordering: false,
+            "scrollX": true, // Enable horizontal scrolling
             "fixedHeader": true // Keeps header fixed when scrolling horizontally
         });
     });
