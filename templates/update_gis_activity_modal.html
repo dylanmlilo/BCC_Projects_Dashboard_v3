@@ -13,16 +13,28 @@
                 <input type="text" class="form-control" name="activity" value="{{ activity_data.activity }}" required>
             </div>
             <div class="form-group">
-                <label>Output ID <span style="color: red;">*</span></label>
-                <input type="number" class="form-control" name="output_id" value="{{ activity_data.output_id }}" required>
+              <label>Select Output <span style="color: red;">*</span></label>
+              <select class="form-control form-select" name="output_id" required>
+                {% for data in gis_output_data %}
+                  <option value="{{ data.id }}" {% if data.id == activity_data.output_id %}selected{% endif %}>
+                    {{ data.name }}
+                  </option>
+                {% endfor %}
+              </select>
             </div>
             <div class="form-group">
-                <label>Responsible Person ID <span style="color: red;">*</span></label>
-                <input type="number" class="form-control" name="responsible_person_id" value="{{ activity_data.responsible_person_id }}" required>
+              <label>Select Responsible Person <span style="color: red;">*</span></label>
+              <select class="form-control form-select" name="responsible_person_id" required>
+                {% for data in gis_responsible_person_data %}
+                  <option value="{{ data.id }}" {% if data.id == activity_data.responsible_person_id %}selected{% endif %}>
+                    {{ data.name }}
+                  </option>
+                {% endfor %}
+              </select>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
-            </div>
+          <div class="form-group">
+              <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
+          </div>
           </form>
           </div>
           <div class="modal-footer">

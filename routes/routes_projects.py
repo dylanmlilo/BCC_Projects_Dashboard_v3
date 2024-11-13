@@ -33,9 +33,10 @@ def projects():
     """
     projects_data = ProjectsData.projects_data_to_dict_list(contract_type_id=1)
     servicing_data_JSON = plot_servicing_page_charts()
+    sections = Section.section_data_to_dict_list()
     formatted_date = today_date()
     return render_template("projects.html", projects_data=projects_data,
-                           today_date=formatted_date,
+                           today_date=formatted_date, sections=sections,
                            servicing_data_JSON=servicing_data_JSON)
 
 
