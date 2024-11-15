@@ -1,13 +1,13 @@
 {% block content %}
 <!-- Update Water Project Manager Modal -->
-<div class="modal fade" id="updateWaterQualityProjectsProjectManagerModal{{ project_manager.id }}" tabindex="-1" role="dialog" aria-labelledby="updateWaterProjectsProjectManagerModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateWaterProjectsProjectManagerModal{{ project_manager.id }}" tabindex="-1" role="dialog" aria-labelledby="updateWaterProjectsProjectManagerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="updateWaterQualityProjectsProjectManagerModalLabel">Edit Data</h5>
         </div>
         <div class="modal-body">
-          <form action="{{ url_for('projects.update_projects_project_manager', project_manager_id=project_manager.id) }}" method="post">
+          <form action="{{ url_for('project_manager.update_projects_project_manager', project_manager_id=project_manager.id) }}" method="post">
             <div class="form-group">
                 <label>Name <span style="color: red;">*</span></label>
                 <input type="text" class="form-control" name="name" value="{{ project_manager.name }}" required>

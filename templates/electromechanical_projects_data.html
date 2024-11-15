@@ -42,8 +42,8 @@
                                 <td>{{ project_manager.name or '' }}</td>
                                 <td>{{ project_manager.section or '' }}</td>
                                 <td>
-                                    <a href="/update_electromechanical_projects_project_manager/{{ project_manager.id }}" class="btn btn-warning btn-xs update-btn" data-toggle="modal" data-target="#updateElectromechanicalProjectsProjectManagerModal{{ project_manager.id }}">Edit</a>
-                                    <a href="/delete_electromechanical_projects_project_manager/{{ project_manager.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
+                                    <a href="/update_projects_project_manager/{{ project_manager.id }}" class="btn btn-warning btn-xs update-btn" data-toggle="modal" data-target="#updateElectromechanicalProjectsProjectManagerModal{{ project_manager.id }}">Edit</a>
+                                    <a href="/delete_projects_project_manager/{{ project_manager.id }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
                                 </td>
                                 {% include 'add_electromechanical_projects_project_manager_modal.html' %}
                                 {% include 'update_electromechanical_projects_project_manager_modal.html' %}
@@ -161,7 +161,7 @@
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>
     $(document).ready(function() {
-        $('#electromechanical_projects_data_table').DataTable({
+        $('#electromechanical_projects_data_table, #electromechanical_projects_project_manager_table').DataTable({
             "fixedHeader": true, // Keeps header fixed when scrolling horizontally
             // "paging": true, // Disable pagination for inline editing
             "ordering": true, // Disable sorting for inline editing
@@ -169,21 +169,7 @@
             // "scrollY": '50vh', // Set a fixed height for vertical scrolling
             // "scrollCollapse": true, // Enable scrolling
             "scrollX": true, // Enable horizontal scrolling
-            // "autoWidth": false // Disable automatic column width calculation
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#electromechanical_projects_project_manager_table').DataTable({
-            "fixedHeader": true, // Keeps header fixed when scrolling horizontally
-            // "paging": true, // Disable pagination for inline editing
-            "ordering": true, // Disable sorting for inline editing
-            // "info": false, // Disable info display for inline editing
-            // "scrollY": '50vh', // Set a fixed height for vertical scrolling
-            // "scrollCollapse": true, // Enable scrolling
-            // "scrollX": true, // Enable horizontal scrolling
-            // "autoWidth": false // Disable automatic column width calculation
+            "autoWidth": false // Disable automatic column width calculation
         });
     });
 </script>

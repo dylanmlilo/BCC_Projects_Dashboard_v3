@@ -42,7 +42,7 @@ def strategic_planning():
 
 @strategic_bp.route("/strategic_planning_data", strict_slashes=False)
 @login_required
-@required_roles('admin', 'admin_struts')
+@required_roles('admin', 'admin_strategic_planning')
 def strategic_planning_data():
     """
     Function to handle Strategic Planning data route.
@@ -69,7 +69,7 @@ def strategic_planning_data():
 
 @strategic_bp.route("/insert_strategic_data", methods=['POST'])
 @login_required
-@required_roles('admin', 'admin_struts')
+@required_roles('admin', 'admin_strategic_planning')
 def insert_strategic_data():
     """
     Function to handle insertion of strategic data.
@@ -119,7 +119,7 @@ def insert_strategic_data():
 
 @strategic_bp.route("/update_strategic_data/<int:strategic_data_id>", methods=['POST'])
 @login_required
-@required_roles('admin', 'admin_struts')
+@required_roles('admin', 'admin_strategic_planning')
 def update_strategic_data(strategic_data_id):
     """
     Function to handle updating strategic data.
@@ -168,7 +168,7 @@ def update_strategic_data(strategic_data_id):
 
 @strategic_bp.route("/delete_strategic_data/<int:strategic_data_id>")
 @login_required
-@required_roles('admin', 'admin_struts')
+@required_roles('admin', 'admin_strategic_planning')
 def delete_strategic_data(strategic_data_id):
     """
     Function to handle deleting strategic data.

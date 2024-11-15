@@ -67,112 +67,10 @@ def projects_data():
                            project_managers=project_managers)
 
 
-@projects_bp.route("/insert_project_manager", methods=['POST'])
-@login_required
-@required_roles('admin', 'admin_projects', 'admin_struts')
-def insert_project_manager():
-    """
-    Function to handle insert project manager route.
-    """
-    if request.method == 'POST':
-        try:
-            name = request.form.get('name')
-            section = request.form.get('section')
-
-            new_project_manager = ProjectManagers(name=name, section=section)
-            session.add(new_project_manager)
-            session.commit()
-            flash('Project manager added successfully!', 'success')
-            return redirect(request.referrer)
-
-        except Exception as e:
-            flash(f'An error occurred while adding the project manager: {str(e)}', 'error')
-            session.rollback()
-            return redirect(request.referrer)
-        
-        finally:
-            session.close()
-
-    return redirect(request.referrer)
-
-
-@projects_bp.route(
-    "/update_projects_project_manager/<int:project_manager_id>",
-    methods=['POST'])
-@login_required
-@required_roles('admin', 'admin_projects', 'admin_struts')
-def update_projects_project_manager(project_manager_id):
-    """
-    Function to handle update project manager route.
-    """
-    if request.method == 'POST':    
-        try:
-            project_manager = (
-                session.query(ProjectManagers)
-                .filter_by(id=project_manager_id)
-                .first()
-            )
-            if project_manager:
-                project_manager.name = request.form.get('name')
-                project_manager.section = request.form.get('section')
-                session.commit()
-                flash('Project manager updated successfully!', 'success')
-            else:
-                flash('Project manager not found.', 'error')
-
-            return redirect(request.referrer)
-
-        except Exception as e:
-            flash(f'An error occurred while updating the project manager: {str(e)}', 'error')
-            session.rollback()
-            return redirect(request.referrer)
-
-        finally:
-            session.close()
-
-    return redirect(request.referrer)
-
-
-@projects_bp.route("/delete_projects_project_manager/<int:project_manager_id>")
-@login_required
-@required_roles('admin', 'admin_projects', 'admin_struts')
-def delete_projects_project_manager(project_manager_id):
-    """
-    Function to handle delete project manager route.
-
-    Parameters:
-    - project_manager_id: The ID of the project manager to be deleted.
-
-    Returns:
-    - A redirect response to the projects data page.
-    """
-    try:
-        project_manager = (
-            session.query(ProjectManagers)
-            .filter_by(id=project_manager_id)
-            .first()
-        )
-        if project_manager:
-            session.delete(project_manager)
-            session.commit()
-            flash('Project manager deleted successfully!', 'success')
-        else:
-            flash('Project manager not found.', 'error')
-        
-        return redirect(request.referrer)
-
-    except Exception as e:
-        flash(f'An error occurred while deleting the project manager: Project manager is linked to a project', 'error')
-        session.rollback()
-        return redirect(request.referrer)
-    
-    finally:
-        session.close()
-
-
 @projects_bp.route('/insert_projects_data', methods=['POST'])
 @login_required
-@required_roles('admin', 'admin_projects')
+@required_roles('admin', 'admin_projects', 'admin_strategic_planning',
+                'admin_sanitation', 'admin_electromechanical', 'admin_water_quality')
 def insert_projects_data():
     if request.method == "POST":   
         try:
@@ -230,7 +128,8 @@ def insert_projects_data():
 
 @projects_bp.route('/update_projects_data/<int:projects_data_id>', methods=['POST'])
 @login_required
-@required_roles('admin', 'admin_projects')
+@required_roles('admin', 'admin_projects', 'admin_strategic_planning',
+                'admin_sanitation', 'admin_electromechanical', 'admin_water_quality')
 def update_projects_data(projects_data_id):
     if request.method == "POST":
         try:    
@@ -332,7 +231,7 @@ def update_projects_data(projects_data_id):
             existing_data.link = request.form.get("link")
 
             session.commit()
-            flash('Projects Data updated successfully!', 'success')
+            flash('Project Data updated successfully!', 'success')
             return redirect(request.referrer)
         
         except Exception as e:
@@ -348,12 +247,13 @@ def update_projects_data(projects_data_id):
 
 @projects_bp.route("/delete_projects_data/<int:project_data_id>")
 @login_required
-@required_roles('admin', 'admin_projects')
+@required_roles('admin', 'admin_projects', 'admin_strategic_planning',
+                'admin_sanitation', 'admin_electromechanical', 'admin_water_quality')
 def delete_projects_data(project_data_id):
     try:
         project_data = session.query(ProjectsData).filter_by(id=project_data_id).first()
         if not project_data:
-            flash('Projects Data not found!', 'error')
+            flash('Project Data not found!', 'error')
             return redirect(url_for('projects.projects_data'))
 
         session.delete(project_data)

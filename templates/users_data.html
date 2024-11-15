@@ -49,7 +49,11 @@
                                 'admin': 'Administrator',
                                 'admin_projects': 'Admin Projects',
                                 'admin_gis': 'Admin GIS',
-                                'admin_struts': 'Admin Strategic Planning',
+                                'admin_strategic_planning': 'Admin Strategic Planning',
+                                'admin_water': 'Admin Water',
+                                'admin_sanitation': 'Admin Sanitation',
+                                'admin_electromechanical': 'Admin Electromechanical',
+                                'admin_water_quality': 'Admin Water Quality',
                                 'user': 'User'
                             } %}
                             <td>{{ role_options.get(user.role, user.role) or '' }}</td>
@@ -84,9 +88,9 @@
             "ordering": true, // Enable sorting
             // "info": false, // Disable info display for inline editing
             // "scrollY": '50vh', // Set a fixed height for vertical scrolling
-            // "scrollCollapse": true, // Enable scrolling
-            // "scrollX": true, // Enable horizontal scrolling
-            // "autoWidth": false // Disable automatic column width calculation
+            //"scrollCollapse": true, // Enable scrolling
+            "scrollX": true, // Enable horizontal scrolling
+            "autoWidth": false // Disable automatic column width calculation
         });
     });
 </script>

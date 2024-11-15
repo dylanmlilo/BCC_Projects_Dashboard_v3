@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
               <label>Link</label>
-              <input type="link" class="form-control" name="link" value="{{ task_data.link }}">
+              <input type="link" class="form-control" name="link" value="{{ task_data.link or '' }}">
             </div>
             <div class="form-group">
                 <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
