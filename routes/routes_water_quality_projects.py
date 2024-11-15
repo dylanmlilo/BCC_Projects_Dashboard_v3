@@ -15,7 +15,7 @@ water_quality_projects_bp = Blueprint('water_quality_projects', __name__)
 
 @water_quality_projects_bp.route("/water_quality_projects", strict_slashes=False)
 @login_required
-def water_projects():
+def water_quality_projects():
     """
     Function to handle water quality projects data retrieval and rendering.
 
@@ -56,7 +56,7 @@ def water_projects_data():
     date and water quality projects data.
 
     """
-    water_quality_projects_data = ProjectsData.projects_data_to_dict_list(section_id=2)
+    water_quality_projects_data = ProjectsData.projects_data_to_dict_list(section_id=6)
     project_managers = (
     ProjectManagers.project_managers_to_dict_list("Water Quality")
     )

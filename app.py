@@ -19,6 +19,7 @@ from routes.routes_electromechanical_projects import electromechanical_projects_
 from routes.routes_sanitation_projects import sanitation_projects_bp
 from routes.routes_water_quality_projects import water_quality_projects_bp
 from routes.routes_projects_sections import projects_sections_bp
+from routes.routes_projects_managers import project_manager_bp
 import os
 from dotenv import load_dotenv
 
@@ -44,6 +45,7 @@ app.register_blueprint(electromechanical_projects_bp)
 app.register_blueprint(sanitation_projects_bp)
 app.register_blueprint(water_quality_projects_bp)
 app.register_blueprint(projects_sections_bp)
+app.register_blueprint(project_manager_bp)
 app.secret_key = os.getenv("SECRET_KEY")
 
 
