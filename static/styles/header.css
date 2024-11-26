@@ -1,13 +1,19 @@
 .navbar {
     height: 70px;
     padding: 0px 0px 5px;
+    align-items: center;
 }
 
-nav .navbar-brand #logo {
-    width: 50px;
+.navbar .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.navbar .navbar-brand #logo {
+    width: 42px;
     height: 50px;
     margin: 0 8px;
-
 }
 
 .company_name {
@@ -30,11 +36,29 @@ nav .navbar-brand #logo {
     color: #0a399f;
 }
 
-.sidebar .offcanvas-header .logo {
-    width: 50px;
+.offcanvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.offcanvas-header .logo {
+    width: 42px;
     height: 50px;
-    margin-right: 30px;
-    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.offcanvas-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.offcanvas-header .btn-close {
+    margin-left: auto;
 }
 
 .navbar .username {

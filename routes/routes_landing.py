@@ -22,12 +22,13 @@ def login():
 
             if user and check_password_hash(user.password, form.password.data):
                 login_user(user)
+                flash(f'Login successful. Welcome, {current_user.username}!', 'success')
                 return redirect(url_for('home.index'))
             else:
                 flash('Invalid username or password', 'error')
 
         except Exception as e:
-            flash(f'An error occurred while processing your request: {str(e)}', 'error')
+            flash(f'An error occured, Try Again or check your internet connection', 'error')
             session.rollback()
         
         finally:
@@ -40,6 +41,7 @@ def login():
 @landing_bp.route('/logout', strict_slashes=False)
 def logout():
     logout_user()
+    flash('You have been logged out successfully.', 'info')
     return redirect(url_for('landing.login'))
 
 
