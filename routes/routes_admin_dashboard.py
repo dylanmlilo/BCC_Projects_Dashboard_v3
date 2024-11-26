@@ -9,7 +9,8 @@ admin_dashboard_bp = Blueprint('admin_dashboard', __name__)
 @admin_dashboard_bp.route("/admin_dashboard", strict_slashes=False)
 @login_required
 @required_roles('admin', 'admin_gis', 'admin_strategic_planning', 'admin_projects',
-                'admin_sanitation', 'admin_electromechanical', 'admin_water_quality')
+                'admin_sanitation', 'admin_electromechanical', 'admin_water_quality',
+                'admin_water')
 def admin_dashboard():
     """
     Renders the admin dashboard page.

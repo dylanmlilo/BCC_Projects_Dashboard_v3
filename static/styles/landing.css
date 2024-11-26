@@ -72,7 +72,7 @@ h3 {
     background: url("../images/stp.jpg") no-repeat center;
 }
 
-.login_container .alert {
+.alert {
     color: red;
     text-shadow: none;
     font-size: 1.3rem;

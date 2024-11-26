@@ -6,6 +6,20 @@
     <h1>City of Bulawayo Water and Sanitation Department</h1>
     <h2>Projects Dashboard</h2>
   </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      <div class="alert-container">
+      {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+      {% endfor %}
+      </div>
+  {% endif %}
+  {% endwith %}
   <div class="landing_flex">
     <div class="about_container">
       <p class="main_paragraph">
@@ -42,16 +56,6 @@
       <h1 class="login-title">Login to Access the BCC Projects Dashboard</h1>
       
       <div class="form_container_div">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if form.errors or messages %} 
-            {% for category, message in messages %}
-              <div class="alert alert-{{ category }}">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endwith %}
-
         <form method="POST" action="" class="form-container">
           {{ form.hidden_tag() }}
           <div>
