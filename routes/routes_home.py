@@ -2,7 +2,6 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 from models.date import today_date
 from models.projects import ProjectsData
-from models.users import Users
 from plot_functions.home_page_charts import plot_home_page_charts
 
 
