@@ -20,6 +20,9 @@
                                 <th>Project Manager</th>
                                 <th>Contractor</th>
                                 <th>Year</th>
+                                <th>Status</th>
+                                <th>Financial Progress (%)</th>
+                                <th>Physical Progress (%)</th>
                                 <th>Date Contract Signed</th>
                                 <th>Date Contract Signed By BCC</th>
                                 <th>Early Start Date</th>
@@ -27,15 +30,12 @@
                                 <th>Contract Duration (Months)</th>
                                 <th>Early Finish Date</th>
                                 <th>Extension of Time</th>
-                                <th>Status</th>
                                 <th>Contract Value Including 10% Contigency</th>
                                 <th>Perfomance Guarantee Value</th>
                                 <th>Perfomance Guarantee Expiry Date</th>
                                 <th>Advance Payment Value</th>
                                 <th>Advance Payment Guarantee Expiry Date</th>
                                 <th>Total Certified Interim Payments To Date</th>
-                                <th>Financial Progress (%)</th>
-                                <th>Physical Progress (%)</th>
                                 <th>Tax Clearance Validation</th>
                                 <th>Link</th>
                             </tr>
@@ -53,6 +53,9 @@
                                 <td>{{ project_data.project_manager or ''}}</td>
                                 <td>{{ project_data.contractor or '' }}</td>
                                 <td>{{ project_data.year or '' }}</td>
+                                <td>{{ project_data.project_status or '' }}</td>
+                                <td>{{ project_data.financial_progress_percentage if project_data.financial_progress_percentage is not none else '' }}</td>
+                                <td>{{ project_data.physical_progress_percentage if project_data.physical_progress_percentage is not none else '' }}</td>
                                 <td>{{ project_data.date_contract_signed or '' }}</td>
                                 <td>{{ project_data.date_contract_signed_by_bcc or '' }}</td>
                                 <td>{{ project_data.early_start_date or '' }}</td>
@@ -60,15 +63,12 @@
                                 <td>{{ project_data.contract_duration_months or '' }}</td>
                                 <td>{{ project_data.early_finish_date or '' }}</td>
                                 <td>{{ project_data.extension_of_time or '' }}</td>
-                                <td>{{ project_data.project_status or '' }}</td>
                                 <td>{{ project_data.contract_value_including_ten_percent_contingency or '' }}</td>
                                 <td>{{ project_data.performance_guarantee_value or '' }}</td>
                                 <td>{{ project_data.performance_guarantee_expiry_date or '' }}</td>
                                 <td>{{ project_data.advance_payment_value or '' }}</td>
                                 <td>{{ project_data.advance_payment_guarantee_expiry_date or ''}}</td>
                                 <td>{{ project_data.total_certified_interim_payments_to_date or '' }}</td>
-                                <td>{{ project_data.financial_progress_percentage if project_data.financial_progress_percentage is not none else '' }}</td>
-                                <td>{{ project_data.physical_progress_percentage if project_data.physical_progress_percentage is not none else '' }}</td>
                                 <td>{{ project_data.tax_clearance_validation or '' }}</td>
                                 <td>
                                     {% if project_data.link %}

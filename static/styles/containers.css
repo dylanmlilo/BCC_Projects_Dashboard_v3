@@ -58,15 +58,7 @@
     float: right;
 }
 
-/* .stats_data_container .update-btn.btn {
-    margin-top: 10px;
-}
-
-.stats_data_container .back-btn {
-    margin-top: 10px;
-} */
-
-.stats_data_container .btn.btn-warning {
+.stats_data_container .btn.btn-info {
     margin-bottom: 2px;
 }
 
