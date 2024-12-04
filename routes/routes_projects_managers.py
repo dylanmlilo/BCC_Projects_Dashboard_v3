@@ -1,13 +1,9 @@
 from flask import (
-    Blueprint, render_template, abort,
-    jsonify, request, redirect, url_for, flash
+    Blueprint, request, redirect, flash
 )
 from flask_login import login_required
 from models.engine.database import session
-from models.date import today_date
-from models.projects import (
-    ProjectsData, ProjectManagers, Section
-)
+from models.projects import ProjectManagers
 from models.decorators import required_roles
 
 

@@ -28,7 +28,6 @@
                         <thead>
                             <tr class="table-dark">
                                 <th>No.</th>
-                                <th>ID</th>
                                 <th>Project Manager</th>
                                 <th>Section</th>
                                 <th>Actions</th>
@@ -38,7 +37,6 @@
                             {% for project_manager in project_managers %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td>{{ project_manager.id or '' }}</td>
                                 <td>{{ project_manager.name or '' }}</td>
                                 <td>{{ project_manager.section or '' }}</td>
                                 <td>
