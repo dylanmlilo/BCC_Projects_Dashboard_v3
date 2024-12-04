@@ -6,7 +6,6 @@ from models.gis import (
     Output, Activity, Task
 )
 from models.decorators import required_roles
-from itertools import groupby
 from plot_functions.gis_charts import plot_gis_task_by_output
 
 
