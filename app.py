@@ -67,4 +67,8 @@ def load_user(user_id):
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     app.run(host='0.0.0.0', port=5000)
+=======
+    app.run(host='0.0.0.0', port=5000)
+>>>>>>> 4f16711689182e9015ff17134e87f07c75e24c42
