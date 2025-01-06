@@ -348,6 +348,10 @@ h3 {
     border-radius: 7px;
 }
 
+.alert.alert-message.alert-dismissible {
+    background-color: #f8848e;
+}
+
 /* padding for the alert */
 .alert-container .alert {
     padding: 0.5rem 1rem;
