@@ -34,14 +34,6 @@ pandas==2.2.2
 patsy==0.5.6
 plotly==5.21.0
 plotly-express==0.4.1
-psycopg==3.2.3
-psycopg-binary==3.2.3
-psycopg2==2.9.10
-pycparser==2.22
-pydantic==2.10.4
-pydantic-extra-types==2.10.1
-pydantic-settings==2.7.0
-pydantic_core==2.27.2
 Pygments==2.18.0
 PyMySQL==1.1.0
 python-dateutil==2.9.0.post0
@@ -71,3 +63,4 @@ watchfiles==1.0.3
 websockets==14.1
 Werkzeug==3.0.2
 WTForms==3.1.2
+
