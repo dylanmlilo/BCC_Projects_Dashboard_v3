@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, request, redirect, url_for, flash
 from models.engine.database import session
 from models.gis import Task
 from flask_login import login_required

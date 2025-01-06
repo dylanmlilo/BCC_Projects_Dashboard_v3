@@ -1,5 +1,5 @@
 """ Required Roles """
-from flask import flash, redirect, url_for
+from flask import redirect, url_for
 from flask_login import current_user
 from functools import wraps
 

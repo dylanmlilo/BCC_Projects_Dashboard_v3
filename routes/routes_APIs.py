@@ -1,15 +1,14 @@
 from flask import Blueprint, request, jsonify
-from flask_login import login_required
+from flask_cors import CORS
 from models.projects import ProjectsData
 from models.decorators import required_roles
 
 
 api_bp = Blueprint('api', __name__)
+CORS(api_bp)
 
 
 @api_bp.route("/api/projects_data", strict_slashes=False)
-@login_required
-@required_roles('admin')
 def projects_data_api():
     """
     Function to handle projects data API endpoint.

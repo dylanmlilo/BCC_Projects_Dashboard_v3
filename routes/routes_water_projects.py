@@ -4,7 +4,7 @@ from flask import (
 from flask_login import login_required
 from models.date import today_date
 from models.projects import (
-    ProjectsData, ProjectManagers, Section
+    ProjectsData, ProjectManagers
 )
 from models.decorators import required_roles
 from plot_functions.sections_page_charts import plot_projects_by_manager_for_section
