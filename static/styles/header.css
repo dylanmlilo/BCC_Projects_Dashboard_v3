@@ -33,7 +33,7 @@
 }
 
 #offcanvasNavbar .offcanvas-body .navbar-nav .nav-item .nav-link:hover {
-    color: #0a399f;
+    color: #476dbf !important;
 }
 
 .offcanvas-header {

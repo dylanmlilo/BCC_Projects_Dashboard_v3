@@ -75,6 +75,10 @@
         width: 200px;
     }
 
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+
     .offcanvas-header {
         background: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(40px);
@@ -275,6 +279,10 @@
         font-size: 0.93rem;
     }
 
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 @media (min-width: 611px) and (max-width: 991px) {
@@ -318,6 +326,10 @@
     /* .stats-container.gis{
         background: url("../images/gis991.jpg") no-repeat;
     } */
+
+    .tasks-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
     .stats_data_container {
         width: 95%;
