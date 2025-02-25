@@ -148,6 +148,11 @@ h3 {
     background: url("../images/pump5.jpg") no-repeat center;
 }
 
+.stats-container.daily_tasks {
+    background: url("../images/todo-lists-cropped.jpg") no-repeat center;
+}
+
+
 .stats-container h1 {
     font-size: 4rem;
     color: #fff;
@@ -155,6 +160,10 @@ h3 {
 
 .stats-container .water_quality_h1 {
     color: #73a4c3;
+}
+
+.stats-container .daily_task_h1 {
+    color: #131313;
 }
 
 .stats_percentage_container .stats_percentage {

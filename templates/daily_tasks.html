@@ -1,0 +1,94 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="stats-container daily_tasks">
+    <h1 class="daily_task_h1">Daily Tasks</h1>
+</div>
+<p class="card-text date">{{ today_date }}</p>  
+<div class="stats_data_container">
+  <h2> Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
+  <div class="table-responsive">
+      <table id="tasks_table" class="table table-hover table-bordered table-striped">
+          <thead>
+              <tr class="table-dark">
+                  <th>Task</th>
+                  <th>Number Done</th>
+                  <th>Responsible Person</th>
+                  <th>Section</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for data in tasks_data %}
+              <tr class="table-light">
+                <td>{{ data.task or '' }}</td>
+                <td>{{ data.number_done or '' }}</td>
+                <td>{{ data.responsible_person or '' }}</td>
+                <td>{{ data.section or '' }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+  </div>
+</div>
+<div class="charts-container">
+  <div id="task-graph-container" class="graph-container"></div>
+</div>
+<!-- <div class="gauge_charts_container dams_gauge_charts">
+  {% for gauge_data in gauge_charts_graphJSON %}
+  <div id="gauge_dam{{ loop.index }}" class="gauge_chart"></div>
+  {% endfor %}
+</div> -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#tasks_table').DataTable({
+            "fixedHeader": true, // Keeps header fixed when scrolling horizontally
+            // "paging": true, // Disable pagination for inline editing
+            // "ordering": false, // Disable sorting for inline editing
+            // "info": false, // Disable info display for inline editing
+            // "scrollY": '50vh', // Set a fixed height for vertical scrolling
+            // "scrollCollapse": true, // Enable scrolling
+            "scrollX": true, // Enable horizontal scrolling
+            "autoWidth": false // Disable automatic column width calculation
+        });
+    });
+</script>
+<script>
+
+        // Load Tasks Bar Chart
+        var taskgraphData = {{ daily_tasks_graphJSON | safe }};
+        Plotly.newPlot('task-graph-container', taskgraphData, { responsive: true });
+
+
+        // // Load gauge_dam charts
+        // var gaugeDamData = {{ gauge_charts_graphJSON | safe }};
+        // gaugeDamData.forEach(function(data, index) {
+        //     var divId = 'gauge_dam' + (index + 1);
+        //     var div = document.getElementById(divId);
+        //     Plotly.newPlot(div, JSON.parse(data));
+        // });
+
+        function updateChartSize() {
+        const graphContainers = document.querySelectorAll('.graph-container');
+  
+        for (const container of graphContainers) {
+          const chartId = container.id; // Get the chart container ID
+          const chart = document.getElementById(chartId); // Find the chart element
+        
+          // Set chart width to occupy full width of the container
+          const containerWidth = container.clientWidth;
+          Plotly.relayout(chart, { width: containerWidth });
+        }
+    }
+  
+    // Initial call to set correct width on page load
+    updateChartSize();
+  
+    window.addEventListener('resize', updateChartSize);
+
+</script>
+{% endblock%}
