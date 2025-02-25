@@ -111,44 +111,10 @@
       <strong>Financial Progress of Projects:</strong> This section provides insights into the financial milestones of projects with trackable financial progress, highlighting expenditure, payments, and overall financial tracking based on project budgets.
     </div>
     <div id="graph-container2" class="graph-container"></div>
-    <div class="charts-container">
-      <div class="alert alert-info mt-5 mb-1" role="alert">
-        <strong>Daily Tasks:</strong> This section displays the tasks completed during the week ending on <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span>. It includes the number of tasks completed, the responsible person, and the section.
-      </div>
-    </div>  
-    <div class="stats_data_container">
-      <h2> Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
-      <div class="table-responsive">
-          <table id="tasks_table" class="table table-hover table-bordered table-striped">
-              <thead>
-                  <tr class="table-dark">
-                      <th>Task</th>
-                      <th>Number Done</th>
-                      <th>Responsible Person</th>
-                      <th>Section</th>
-                  </tr>
-              </thead>
-              <tbody>
-                {% for data in tasks_data %}
-                  <tr class="table-light">
-                    <td>{{ data.task or '' }}</td>
-                    <td>{{ data.number_done or '' }}</td>
-                    <td>{{ data.responsible_person or '' }}</td>
-                    <td>{{ data.section or '' }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-          </table>
-      </div>
-    </div>
-    <div class="charts-container">
-      <div id="task-graph-container" class="graph-container"></div>
-    </div>
-
     <div class="alert alert-success mt-5 mb-1" role="alert">
       <strong>Section-Wise Project Progress:</strong> 
       This section displays the overall progress of projects grouped by section. It shows the total progress percentage for each project, regardless of whether it has physical or financial progress data.
-  </div>
+    </div>
     <div class="charts-container">
       {% for chart_data in graph6JSON %}
           <div id="section_graph-container{{ loop.index }}" class="graph-container"></div>
@@ -172,7 +138,7 @@
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>
 $(document).ready(function() {
-    $('#home_table, #tasks_table').DataTable({
+    $('#home_table').DataTable({
       "fixedHeader": true, // Keeps header fixed when scrolling horizontally
         // "paging": true, // Disable pagination for inline editing
         // "ordering": false, // Disable sorting for inline editing
@@ -211,10 +177,6 @@ $(document).ready(function() {
       // Load Sunburst Chart
       var graph5Data = {{ graph5JSON | safe }};
       Plotly.newPlot('graph-container5', graph5Data, { responsive: true });
-
-      // Load Tasks Bar Chart
-      var taskgraphData = {{ daily_tasks_graphJSON | safe }};
-      Plotly.newPlot('task-graph-container', taskgraphData, { responsive: true });
 
       function updateChartSize() {
       const graphContainers = document.querySelectorAll('.graph-container');
