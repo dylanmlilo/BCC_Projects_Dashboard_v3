@@ -4,7 +4,23 @@
 <div class="stats-container daily_tasks">
     <h1 class="daily_task_h1">Daily Tasks</h1>
 </div>
-<p class="card-text date">{{ today_date }}</p>  
+<p class="card-text date">{{ today_date }}</p>
+<div class="tasks-grid-container">
+  <h2> Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
+  <div class="tasks-grid">
+      {% for data in tasks_data %}
+      <div class="task-card">
+          <div class="task-info">
+              <div class="task-title">{{ data.task or '' }}</div>
+              <div class="task-number">{{ data.number_done or '' }}</div>
+          </div>
+          <div class="task-details">
+              <div>{{ data.responsible_person or '' }}</div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
 <div class="stats_data_container">
   <h2> Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
   <div class="table-responsive">
