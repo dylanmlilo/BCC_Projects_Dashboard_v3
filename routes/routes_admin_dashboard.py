@@ -10,7 +10,7 @@ admin_dashboard_bp = Blueprint('admin_dashboard', __name__)
 @login_required
 @required_roles('admin', 'admin_gis', 'admin_strategic_planning', 'admin_projects',
                 'admin_sanitation', 'admin_electromechanical', 'admin_water_quality',
-                'admin_water')
+                'admin_water', 'admin_daily_tasks')
 def admin_dashboard():
     """
     Renders the admin dashboard page.

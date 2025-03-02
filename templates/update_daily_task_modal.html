@@ -10,7 +10,17 @@
           <form action="{{ url_for('daily_tasks.update_daily_task', daily_task_id=data.id) }}" method="post">
             <div class="form-group">
               <label>Task <span style="color: red;">*</span></label>
-              <input type="text" class="form-control" name="task" value="{{data.task}}" required>
+              <select class="form-control form-select" name="task" required>
+                  <option value="Water connections" {% if data.task == 'Water connections' %}selected{% endif %}>Water connections</option>
+                  <option value="Sewer connections" {% if data.task == 'Sewer connections' %}selected{% endif %}>Sewer connections</option>
+                  <option value="Borehole Inspections" {% if data.task == 'Borehole Inspections' %}selected{% endif %}>Borehole Inspections</option>
+                  <option value="Plan approvals" {% if data.task == 'Plan approvals' %}selected{% endif %}>Plan approvals</option>
+                  <option value="Compliants" {% if data.task == 'Compliants' %}selected{% endif %}>Compliants</option>
+                  <option value="Water and sewer clearances" {% if data.task == 'Water and sewer clearances' %}selected{% endif %}>Water and sewer clearances</option>
+                  <option value="Water Bill Enquiries" {% if data.task == 'Water Bill Enquiries' %}selected{% endif %}>Water Bill Enquiries</option>
+                  <option value="Water and sewer faults" {% if data.task == 'Water and sewer faults' %}selected{% endif %}>Water and sewer faults</option>
+                  <option value="Bowser Requests" {% if data.task == 'Bowser Requests' %}selected{% endif %}>Bowser Requests</option>
+              </select>
             </div>
             <div class="form-group">
                 <label>Number Done <span style="color: red;">*</span></label>
@@ -20,19 +30,31 @@
               <label>Week Ending (Friday) <span style="color: red;">*</span></label>
               <select class="form-control" name="week_ending" required>
                 {% for date in existing_fridays %}
-                    <option value="{{ date }}" {% if date == latest_friday %}selected{% endif %}>
+                    <option value="{{ date }}" {% if data.week_ending == date %}selected{% endif %}>
                         {{ date.strftime('%d %b %Y') }}
                     </option>
                 {% endfor %}
-              </select>          
+              </select>       
             </div>
             <div class="form-group">
-                <label>Responsible Person <span style="color: red;">*</span></label>
-                <input type="text" class="form-control" name="responsible_person" value="{{data.responsible_person}}" required>
+              <label>Responsible Person <span style="color: red;">*</span></label>
+              <select class="form-control form-select" name="responsible_person" required>
+                  <option value="G Sibanda" {% if data.responsible_person == "G Sibanda" %}selected{% endif %}>G Sibanda</option>
+                  <option value="M Sibindi" {% if data.responsible_person == "M Sibindi" %}selected{% endif %}>M Sibindi</option>
+                  <option value="S Ndebele" {% if data.responsible_person == "S Ndebele" %}selected{% endif %}>S Ndebele</option>
+                  <option value="B F Mzungwana" {% if data.responsible_person == "B F Mzungwana" %}selected{% endif %}>B F Mzungwana</option>
+              </select>
             </div>
             <div class="form-group">
-                <label>Section <span style="color: red;">*</span></label>
-                <input type="text" class="form-control" name="section" value="{{data.section}}" required>
+              <label>Section <span style="color: red;">*</span></label>
+              <select class="form-control form-select" name="section" required>
+                  <option value="Water" {% if data.section == "Water" %}selected{% endif %}>Water</option>
+                  <option value="Projects" {% if data.section == "Projects" %}selected{% endif %}>Projects</option>
+                  <option value="Sanitation" {% if data.section == "Sanitation" %}selected{% endif %}>Sanitation</option>
+                  <option value="Strategic Planning" {% if data.section == "Strategic Planning" %}selected{% endif %}>Strategic Planning</option>
+                  <option value="Electromechanical" {% if data.section == "Electromechanical" %}selected{% endif %}>Electromechanical</option>
+                  <option value="Water Quality" {% if data.section == "Water Quality" %}selected{% endif %}>Water Quality</option>
+              </select>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>

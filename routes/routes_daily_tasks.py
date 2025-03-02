@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_cors import CORS
 from flask_login import login_required
+from models.decorators import required_roles
 from models.daily_tasks import DailyTask
 from models.engine.database import session
 from models.date import today_date
@@ -28,6 +29,7 @@ def daily_tasks():
 
 @daily_tasks_bp.route("/daily_tasks_data", strict_slashes=False)
 @login_required
+@required_roles("admin", "admin_daily_tasks")
 def daily_tasks_data():
     all_tasks_data = DailyTask.get_all_tasks_to_dict_list()
     existing_fridays = DailyTask.get_weekending_dates()
@@ -39,6 +41,7 @@ def daily_tasks_data():
 
 @daily_tasks_bp.route("/insert_daily_task", methods=["POST"])
 @login_required
+@required_roles("admin", "admin_daily_tasks")
 def insert_daily_task():
     try:
         task_name = request.form.get("task")
@@ -76,6 +79,7 @@ def insert_daily_task():
 
 @daily_tasks_bp.route("/update_daily_task/<int:daily_task_id>", methods=["POST"])
 @login_required
+@required_roles("admin", "admin_daily_tasks")
 def update_daily_task(daily_task_id):
     try:
         task =  session.query(DailyTask).filter_by(id=daily_task_id).first()
@@ -105,6 +109,7 @@ def update_daily_task(daily_task_id):
 
 @daily_tasks_bp.route("/delete_daily_task/<int:daily_task_id>")
 @login_required
+@required_roles("admin", "admin_daily_tasks")
 def delete_daily_task(daily_task_id):
     try:
         task = session.query(DailyTask).filter_by(id=daily_task_id).first()
