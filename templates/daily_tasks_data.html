@@ -20,14 +20,13 @@
   <div class="row">
       <div class="col md-12">
           <div class="jumbotron data_container p-3">
-              <h2 class="left-aligned-text">Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span>
+              <h2 class="left-aligned-text">Daily Tasks Recorded Weekly
                   <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#myDailyTasksModal">Add New Data</button>
               </h2>
               <div class="table-responsive">
                   <table id="tasks_data_table" class="table table-hover table-bordered table-striped">
                       <thead>
                           <tr class="table-dark">
-                              <th>No.</th>
                               <th>Date</th>
                               <th>Task</th>
                               <th>Number Done</th>
@@ -37,9 +36,8 @@
                           </tr>
                       </thead>
                       <tbody>
-                        {% for data in tasks_data %}
+                        {% for data in all_tasks_data %}
                           <tr class="table-light">
-                            <td>{{ loop.index }}</td>
                             <td>{{ data.week_ending or ''}}</td>
                             <td>{{ data.task or '' }}</td>
                             <td>{{ data.number_done or '' }}</td>
@@ -68,15 +66,36 @@
 <script>
     $(document).ready(function() {
         $('#tasks_data_table').DataTable({
-            "fixedHeader": true, // Keeps header fixed when scrolling horizontally
+            "fixedHeader": true,  // Keeps header fixed when scrolling horizontally
             // "paging": true, // Disable pagination for inline editing
             // "ordering": false, // Disable sorting for inline editing
             // "info": false, // Disable info display for inline editing
             // "scrollY": '50vh', // Set a fixed height for vertical scrolling
             // "scrollCollapse": true, // Enable scrolling
-            "scrollX": true, // Enable horizontal scrolling
-            "autoWidth": false // Disable automatic column width calculation
+            "scrollX": true,      // Enables horizontal scrolling
+            "autoWidth": false,   // Disables automatic column width calculation
+            "order": [[0, 'desc']],  // Sort the first column (date) in descending order (latest first)
+            "columnDefs": [
+                {
+                    "targets": 0,  // Assuming the first column is the date column
+                    "type": "date"  // Specifies that the column contains date values
+                }
+            ]
         });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function getLastFriday() {
+            let today = new Date();
+            let dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
+            let daysUntilFriday = (dayOfWeek >= 5) ? (dayOfWeek - 5) : (dayOfWeek + 2); 
+            let lastFriday = new Date(today);
+            lastFriday.setDate(today.getDate() - daysUntilFriday);
+            return lastFriday.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+        }
+    
+        document.getElementById("week_ending").value = getLastFriday();
     });
 </script>
 {% endblock%}

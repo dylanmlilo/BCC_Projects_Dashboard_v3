@@ -16,24 +16,19 @@ class DailyTask(BaseModel):
     def __repr__(self):
         return f"<DailyTask(task={self.task}, responsible_person={self.responsible_person}, week_ending={self.week_ending})>"
 
-
     @classmethod
-    def daily_tasks_to_dict_list(cls) -> tuple[list[dict], str]:
-        """Fetch tasks for the latest week-ending date"""
+    def get_all_tasks_to_dict_list(cls):
         try:
-            latest_week = session.query(func.max(cls.week_ending)).scalar()
-            if latest_week:
-                tasks = session.query(cls).filter(cls.week_ending == latest_week).all()
-                tasks_list = [task.to_dict() for task in tasks]
-                return tasks_list, latest_week.strftime("%d %b %Y")
-            return [], None
+            all_tasks = session.query(DailyTask).all()
+            all_tasks_dict = [task.to_dict() for task in all_tasks]
+            return all_tasks_dict
         except Exception as e:
             print(f"An error occurred: {e}")
             session.rollback()
-            return [], None
+            return []
         finally:
             session.close()
-
+    
     @classmethod
     def get_latest_week_tasks(cls):
         try:
@@ -55,3 +50,10 @@ class DailyTask(BaseModel):
             return [], "N/A"
         finally:
             session.close()
+
+    @classmethod
+    def get_weekending_dates(cls):
+            # Fetch all existing Fridays in the database
+            existing_fridays = session.query(DailyTask.week_ending).distinct().order_by(DailyTask.week_ending.desc()).all()
+            existing_fridays = [date[0] for date in existing_fridays]  # Convert to list of dates
+            return existing_fridays

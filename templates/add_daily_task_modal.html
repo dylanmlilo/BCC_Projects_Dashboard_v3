@@ -9,23 +9,46 @@
                 <form action="{{ url_for('daily_tasks.insert_daily_task') }}" method="post">
                     <div class="form-group">
                         <label>Task <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="task" required>
+                        <select class="form-control form-select" name="task" required>
+                            <option value="Water connections">Water connections</option>
+                            <option value="Sewer connections">Sewer connections</option>
+                            <option value="Borehole Inspections">Borehole Inspections</option>
+                            <option value="Plan approvals">Plan approvals</option>
+                            <option value="Compliants">Compliants</option>
+                            <option value="Water and sewer clearances">Water and sewer clearances</option>
+                            <option value="Water Bill Enquiries">Water Bill Enquiries</option>
+                            <option value="Water and sewer faults">Water faults</option>
+                            <option value="Water and sewer faults">Sewer faults</option>
+                            <option value="Bowser Requests">Bowser Requests</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Number Done <span style="color: red;">*</span></label>
                         <input type="number" class="form-control" name="number_done" required>
                     </div>
                     <div class="form-group">
-                        <label>Week Ending <span style="color: red;">*</span></label>
-                        <input type="date" class="form-control" name="week_ending" required>
+                        <label>Week Ending (Friday) <span style="color: red;">*</span></label>
+                        <input type="date" class="form-control bg-light" name="week_ending" id="week_ending" required readonly>
                     </div>
                     <div class="form-group">
                         <label>Responsible Person <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="responsible_person" required>
+                        <select class="form-control form-select" name="responsible_person" required>
+                            <option value="G Sibanda">G Sibanda</option>
+                            <option value="M Sibindi">M Sibindi</option>
+                            <option value="S Ndebele">S Ndebele</option>
+                            <option value="B F Mzungwana">B F Mzungwana</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Section <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="section" required>
+                        <select class="form-control form-select" name="section" required>
+                            <option value="Water">Water</option>
+                            <option value="Projects">Projects</option>
+                            <option value="Projects">Sanitation</option>
+                            <option value="Projects">Strategic Planning</option>
+                            <option value="Projects">Electromechanical</option>
+                            <option value="Projects">Water Quality</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary left-aligned-button" style="float: left;" type="submit">Submit</button>
