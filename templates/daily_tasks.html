@@ -6,7 +6,7 @@
 </div>
 <p class="card-text date">{{ today_date }}</p>
 <div class="tasks-grid-container">
-  <h2> Daily Tasks as of Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
+  <h2> Daily Tasks for the Week Ending: <span id="week-ending-date">{{ latest_week_ending or 'N/A' }}</span></h2>
   <div class="tasks-grid">
       {% for data in tasks_data %}
       <div class="task-card">
