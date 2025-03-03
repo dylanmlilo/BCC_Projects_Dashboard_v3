@@ -37,7 +37,7 @@ def plot_daily_tasks_chart():
         legend_title_text='Responsible Person',
         title={'x': 0.5, 'y': 0.93, 'font': {'size': 22, 'family': 'Arial'}},
         xaxis_title_text="Task",
-        yaxis_title_text="Number Completed",
+        yaxis_title_text="Tasks Completed",
         xaxis_title_font_size=16,
         yaxis_title_font_size=16,
         legend_title_font={'size': 14},

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, func
+from sqlalchemy import Column, Integer, String, Date
 from models.basemodel import BaseModel
 from models.engine.database import session
 
@@ -36,7 +36,7 @@ class DailyTask(BaseModel):
             latest_week = latest_week[0] if latest_week else None
 
             if latest_week:
-                formatted_week = latest_week.strftime("%d %b %Y")
+                formatted_week = latest_week.strftime("%A, %d %b %Y")
             else:
                 formatted_week = "N/A"
 

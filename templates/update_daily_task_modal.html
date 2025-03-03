@@ -18,7 +18,8 @@
                   <option value="Compliants" {% if data.task == 'Compliants' %}selected{% endif %}>Compliants</option>
                   <option value="Water and sewer clearances" {% if data.task == 'Water and sewer clearances' %}selected{% endif %}>Water and sewer clearances</option>
                   <option value="Water Bill Enquiries" {% if data.task == 'Water Bill Enquiries' %}selected{% endif %}>Water Bill Enquiries</option>
-                  <option value="Water and sewer faults" {% if data.task == 'Water and sewer faults' %}selected{% endif %}>Water and sewer faults</option>
+                  <option value="Water faults" {% if data.task == 'Water faults' %}selected{% endif %}>Water faults</option>
+                  <option value="Sewer faults" {% if data.task == 'Sewer faults' %}selected{% endif %}>Sewer faults</option>
                   <option value="Bowser Requests" {% if data.task == 'Bowser Requests' %}selected{% endif %}>Bowser Requests</option>
               </select>
             </div>
@@ -28,7 +29,7 @@
             </div>
             <div class="form-group">
               <label>Week Ending (Friday) <span style="color: red;">*</span></label>
-              <select class="form-control" name="week_ending" required>
+              <select class="form-control bg-light" name="week_ending" required>
                 {% for date in existing_fridays %}
                     <option value="{{ date }}" {% if data.week_ending == date %}selected{% endif %}>
                         {{ date.strftime('%d %b %Y') }}
