@@ -8,7 +8,7 @@
     {% for category, message in messages %}
         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
         {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
@@ -21,7 +21,7 @@
       <div class="col md-12">
           <div class="jumbotron data_container p-3">
               <h2 class="left-aligned-text">Daily Tasks Recorded Weekly
-                  <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#myDailyTasksModal">Add New Data</button>
+                  <button type="button" class="btn btn-success float-right" data-bs-toggle="modal" data-bs-target="#myDailyTasksModal">Add New Data</button>
               </h2>
               <div class="table-responsive">
                   <table id="tasks_data_table" class="table table-hover table-bordered table-striped">
@@ -44,7 +44,7 @@
                             <td>{{ data.responsible_person or '' }}</td>
                             <td>{{ data.section or '' }}</td>
                             <td>
-                              <a href="{{ url_for('daily_tasks.update_daily_task', daily_task_id=data.id) }}" class="btn btn-info btn-xs update-btn" data-toggle="modal" data-target="#updateDailyTaskModal{{ data.id }}">Edit</a>
+                              <a href="{{ url_for('daily_tasks.update_daily_task', daily_task_id=data.id) }}" class="btn btn-info btn-xs update-btn" data-bs-toggle="modal" data-bs-target="#updateDailyTaskModal{{ data.id }}">Edit</a>
                               <a href="{{ url_for('daily_tasks.delete_daily_task', daily_task_id=data.id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
                             </td>
                             {% include 'add_daily_task_modal.html' %}
@@ -59,7 +59,6 @@
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>

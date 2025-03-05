@@ -1,0 +1,164 @@
+/* Overall container for tasks grid */
+.tasks-grid-container {
+    margin: 30px;
+    text-align: center;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.task-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    color: #333;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+/* Title of the task card */
+.task-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+/* Number done inside a beautiful circle */
+.task-number {
+    font-size: 40px;
+    font-weight: bold;
+    background-color: #0f4a71;
+    color: white;
+    border-radius: 30%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+    transition: background-color 0.3s ease;
+}
+
+.task-number:hover {
+    background-color: #2980b9;
+}
+
+/* Task details */
+.task-details {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-top: auto;
+}
+
+.task-details div {
+    margin: 5px 0;
+}
+
+.cards_header {
+    background-color: #e8eef2;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    color: #333;
+    width: 70%;
+    margin: 15px auto;
+}
+
+.card-body, .task-card {
+    background: #e8eef2;
+}
+
+.card-body:hover, .task-card:hover {
+    background: #b8e0eb;
+}
+
+
+/* Container Styling */
+.projects-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Accordion Styling */
+.accordion-item {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.accordion-body.accordian-background {
+    background: #b7d5e0;
+}
+
+/* Button Styling */
+.accordion-button {
+    background: #d0e6ee!important;
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+.accordion-button:hover {
+    background: #609ddf!important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background: #0056b3;
+    color: white;
+}
+
+/* Progress Bars */
+.progress {
+    height: 8px;
+    border-radius: 6px;
+}
+
+/* Status Badge Styling */
+.badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+/* Custom Colors for Project Status */
+.badge-success { background-color: #28a745; }
+.badge-info { background-color: #17a2b8; }
+.badge-danger { background-color: #dc3545; }
+.badge-warning { background-color: #ffc107; }
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-weight: bold;
+}

@@ -67,8 +67,7 @@ def delete_projects_section(section_id):
         return redirect(request.referrer)
 
     except Exception as e:
-        flash(f'An error occurred while deleting the section: {str(e)}', 'error')
-        session.rollback()
+        flash(f'An error occurred while deleting the section: The section is linked to a project.', 'error')
         return redirect(request.referrer)
     
     finally:

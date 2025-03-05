@@ -5,6 +5,71 @@
     <h1>Projects Section</h1>
 </div>
 <p class="card-text date">{{ today_date }}</p>
+<div class="container mt-4">
+    <h2 class="text-center cards_header">Projects Section Data</h2>
+    <div class="accordion" id="projectsAccordion">
+        {% for project in projects_data %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                    <strong>{{ project.contract_name or 'No Name' }}</strong> 
+                    <span class="badge ms-3 
+                        {% if project.project_status == 'Completed' %}bg-success
+                        {% elif project.project_status == 'In Progress' %}bg-info
+                        {% elif project.project_status == 'Stopped' %}bg-danger
+                        {% elif project.project_status == 'Retendered' %}bg-warning
+                        {% else %}bg-dark{% endif %}">
+                        {{ project.project_status or 'Unknown' }}
+                    </span>
+                </button>
+            </h2>
+            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#projectsAccordion">
+                <div class="accordion-body accordian-background">
+                    <p><strong>Contract No:</strong> {{ project.contract_number or 'N/A' }}</p>
+                    <p><strong>Project Manager:</strong> {{ project.project_manager or 'Not Assigned' }}</p>
+                    <p><strong>Contractor:</strong> {{ project.contractor or 'Unknown' }}</p>
+                    <p><strong>Year:</strong> {{ project.year or 'N/A' }}</p>
+
+                    <div class="progress-group">
+                        <p class="mb-1"><strong>Water Progress:</strong> {{ project.water_progress or 0 }}%</p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-primary" style="width: {{ project.water_progress or 0 }}%;"></div>
+                        </div>
+
+                        <p class="mb-1"><strong>Sewer Progress:</strong> {{ project.sewer_progress or 0 }}%</p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-success" style="width: {{ project.sewer_progress or 0 }}%;"></div>
+                        </div>
+
+                        <p class="mb-1"><strong>Roads Progress:</strong> {{ project.roads_progress or 0 }}%</p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-dark" style="width: {{ project.roads_progress or 0 }}%;"></div>
+                        </div>
+
+                        <p class="mb-1"><strong>Storm Drain Progress:</strong> {{ project.storm_drainage_progress or 0 }}%</p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-info" style="width: {{ project.storm_drainage_progress or 0 }}%;"></div>
+                        </div>
+
+                        <p class="mb-1"><strong>Public Lighting Progress:</strong> {{ project.public_lighting_progress or 0 }}%</p>
+                        <div class="progress mb-2">
+                            <div class="progress-bar bg-warning" style="width: {{ project.public_lighting_progress or 0 }}%;"></div>
+                        </div>
+
+                        <p class="mb-1"><strong>Total Progress:</strong> {{ project.physical_progress_percentage or 0 }}%</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" style="width: {{ project.physical_progress_percentage or 0 }}%;"></div>
+                        </div>
+                    </div>
+                    {% if project.link %}
+                        <a href="{{ project.link }}" class="btn btn-primary btn-sm mt-3" target="_blank">View Details</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 <div class="stats_data_container">
     <div class="row">
         <div class="col md-12">
@@ -62,51 +127,37 @@
 {% endfor %}
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>
     $(document).ready(function() {
         $('#projects_table').DataTable({
             "fixedHeader": true, // Keeps header fixed when scrolling horizontally
-            // "paging": true, // Disable pagination for inline editing
-            // "ordering": false, // Disable sorting for inline editing
-            // "info": false, // Disable info display for inline editing
-            // "scrollY": '50vh', // Set a fixed height for vertical scrolling
-            // "scrollCollapse": true, // Enable scrolling
             "scrollX": true, // Enable horizontal scrolling
             "autoWidth": false // Disable automatic column width calculation
         });
     });
 </script>
 <script>
-        // Load bar plots
-        var servicingData = {{ servicing_data_JSON | safe }};
-        servicingData.forEach(function(data, index) {
-            var divId = 'servicing_graph-container' + (index + 1);
-            var div = document.getElementById(divId);
-            Plotly.newPlot(div, JSON.parse(data));
-        });
+    // Load bar plots
+    var servicingData = {{ servicing_data_JSON | safe }};
+    servicingData.forEach(function(data, index) {
+        var divId = 'servicing_graph-container' + (index + 1);
+        var div = document.getElementById(divId);
+        Plotly.newPlot(div, JSON.parse(data));
+    });
 
-
-        function updateChartSize() {
+    function updateChartSize() {
         const graphContainers = document.querySelectorAll('.graph-container');
-  
         for (const container of graphContainers) {
-          const chartId = container.id; // Get the chart container ID
-          const chart = document.getElementById(chartId); // Find the chart element
-        
-          // Set chart width to occupy full width of the container
-          const containerWidth = container.clientWidth;
-          Plotly.relayout(chart, { width: containerWidth });
+            const chartId = container.id; // Get the chart container ID
+            const chart = document.getElementById(chartId); // Find the chart element
+            // Set chart width to occupy full width of the container
+            const containerWidth = container.clientWidth;
+            Plotly.relayout(chart, { width: containerWidth });
         }
     }
-  
+
     // Initial call to set correct width on page load
     updateChartSize();
-  
     window.addEventListener('resize', updateChartSize);
-
 </script>
-{% endblock%}
+{% endblock %}
