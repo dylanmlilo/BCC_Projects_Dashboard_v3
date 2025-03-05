@@ -17,10 +17,10 @@ def plot_gis_task_by_output():
     color_index = 0
 
     color_map = {
-        "Not Started": "rgba(72, 203, 243, 0.9)",
-        "Overdue": "rgba(255, 0, 0, 0.9)",
-        "Complete": "rgba(10, 141, 10, 0.9)",
-        "In Progress": "rgba(154, 205, 50, 0.9)"
+        "Not Started": "#6C757D",
+        "Overdue": "#DC3545",
+        "Complete": "#198754",
+        "In Progress": "#ffc107"
     }
 
     for output_name in output_names:

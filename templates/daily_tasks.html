@@ -49,14 +49,8 @@
 <div class="charts-container">
   <div id="task-graph-container" class="graph-container"></div>
 </div>
-<!-- <div class="gauge_charts_container dams_gauge_charts">
-  {% for gauge_data in gauge_charts_graphJSON %}
-  <div id="gauge_dam{{ loop.index }}" class="gauge_chart"></div>
-  {% endfor %}
-</div> -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>
@@ -78,15 +72,6 @@
         // Load Tasks Bar Chart
         var taskgraphData = {{ daily_tasks_graphJSON | safe }};
         Plotly.newPlot('task-graph-container', taskgraphData, { responsive: true });
-
-
-        // // Load gauge_dam charts
-        // var gaugeDamData = {{ gauge_charts_graphJSON | safe }};
-        // gaugeDamData.forEach(function(data, index) {
-        //     var divId = 'gauge_dam' + (index + 1);
-        //     var div = document.getElementById(divId);
-        //     Plotly.newPlot(div, JSON.parse(data));
-        // });
 
         function updateChartSize() {
         const graphContainers = document.querySelectorAll('.graph-container');
