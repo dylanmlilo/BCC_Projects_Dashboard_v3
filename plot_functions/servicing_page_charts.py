@@ -61,7 +61,7 @@ def plot_servicing_page_charts():
             }
           },
           xaxis_title_text=(
-            "Contractor - {} -- <a href='{}'>Link to Google Drive Folder</a>"
+            "Contractor - {} -- <a href='{}'>View Details</a>"
             .format(contractor, link)
           ),
           yaxis_title_text="Progress Percentage(%)",

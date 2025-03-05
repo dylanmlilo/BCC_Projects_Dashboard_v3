@@ -108,7 +108,7 @@ def delete_projects_project_manager(project_manager_id):
         return redirect(request.referrer)
 
     except Exception as e:
-        flash(f'An error occurred while deleting the project manager: Project manager is linked to a project', 'error')
+        flash(f'An error occurred while deleting the project manager: Project manager is linked to a project.', 'error')
         session.rollback()
         return redirect(request.referrer)
     

@@ -5,6 +5,50 @@
     <h1>Strategic Planning</h1>
 </div>
 <p class="card-text date">{{ today_date }}</p>
+<div class="container mt-4">
+    <h2 class="cards_header">Task Management Tracking</h2>
+    <div class="accordion" id="taskAccordion">
+        {% for task in strategic_data_list %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                    <strong>{{ task.task }}</strong>  
+                    <span class="badge ms-2 bg-{% if task.status == 'Complete' %}success{% elif task.status == 'In Progress' %}primary{% elif task.status == 'Overdue' %}danger{% else %}secondary{% endif %}">{{ task.status }}</span>
+                    <span class="badge ms-2 bg-{% if task.priority == 'High' %}danger{% elif task.priority == 'Medium' %}warning{% else %}info{% endif %}">{{ task.priority }}</span>
+                </button>
+            </h2>
+            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#taskAccordion">
+                <div class="accordion-body accordian-background">
+                    <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+                    <p><strong>Description:</strong> {{ task.description }}</p>
+                    <p><strong>Assigned To:</strong> {{ task.project_manager }}</p>
+                    <p><strong>Deliverable:</strong> {{ task.deliverables }}</p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar 
+                            {% if task.status == 'Complete' %}bg-success
+                            {% elif task.status == 'Overdue' %}bg-danger
+                            {% elif task.status == 'In Progress' %}bg-primary
+                            {% else %}bg-secondary{% endif %}" 
+                            role="progressbar" 
+                            style="width: {{ task.percentage_done or 0 }}%;" 
+                            aria-valuenow="{{ task.percentage_done or 0 }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100">
+                            {{ task.percentage_done or 0 }}%
+                        </div>
+                    </div>                    
+                    <p><strong>Fixed Cost:</strong> ${{ task.fixed_cost }}</p>
+                    <p><strong>Estimated Hours:</strong> {{ task.estimated_hours }}</p>
+                    <p><strong>Actual Hours:</strong> {{ task.actual_hours }}</p>
+                    {% if task.link %}
+                    <a href="{{ task.link }}" class="btn btn-sm btn-primary" target="_blank">View Details</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 <div class="stats_data_container">
     <h2>Task Management Tracking</h2>
     <div class="table-responsive">
@@ -15,7 +59,7 @@
                     <th>Priority</th>
                     <th>Deadline</th>
                     <th>Task</th>
-                    <th>Desciption</th>
+                    <th>Description</th>
                     <th>Assigned To</th>
                     <th>Deliverable</th>
                     <th>% Done</th>
@@ -28,13 +72,15 @@
             <tbody>
                 {% for strategic_data in strategic_data_list %}
                 <tr>
-                    <td class="{% if strategic_data.status == 'In Progress' %}table-yellow_green
-                {%elif strategic_data.status == 'Complete' %}table-green
-                {%elif strategic_data.status == 'Overdue' %}table-red
-                {% else %}table-blue{% endif %}">{{ strategic_data.status }}</td>
-                <td class="{% if strategic_data.priority == 'Low' %}table-blue 
-                {%elif strategic_data.priority == 'High' %}table-red
-                {% else %}table-yellow{% endif %}">{{ strategic_data.priority or '' }}</td>
+                    <td class="{% if strategic_data.status == 'In Progress' %}bg-primary
+                {% elif strategic_data.status == 'Complete' %}bg-success
+                {% elif strategic_data.status == 'Overdue' %}bg-danger
+                {% else %}bg-secondary{% endif %} text-white">{{ strategic_data.status }}</td>
+
+                    <td class="{% if strategic_data.priority == 'Low' %}bg-info 
+                {% elif strategic_data.priority == 'High' %}bg-danger
+                {% else %}bg-warning{% endif %} text-white">{{ strategic_data.priority or '' }}</td>
+
                     <td>{{ strategic_data.deadline or '' }}</td>
                     <td>{{ strategic_data.task or '' }}</td>
                     <td>{{ strategic_data.description or '' }}</td>
@@ -64,7 +110,6 @@
 </div>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 <script>

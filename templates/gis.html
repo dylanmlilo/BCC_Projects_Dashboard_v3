@@ -5,66 +5,60 @@
     <h1>GIS Projects</h1>
 </div>
 <p class="card-text date">{{ today_date }}</p>
-<div class="stats_data_container">
-    <h2>Summary of GIS Projects</h2>
-    <div class="table-responsive">
-        <table id="gis_table" class="table table-hover table-bordered table-striped">
-            <thead>
-                <tr class="table-dark">
-                    <th>OUTPUT</th>
-                    <th>ACTIVITY<br>Activities add up to 100% of the Output</th>
-                    <th>TASK<br>Tasks add up to 100% of the Activity</th>
-                    <th>Status</th>
-                    <th>Percentage done</th>
-                    <th>RESPONSIBLE OFFICER/PERSON<br>Names of Responsible People in Full</th>
-                    <th>DESIGNATION</th>
-                    <th>LINK</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for data in gis_data %}
-                    <tr>
-                        <td>{{ data.output_name or '' }}</td>
-                        <td>{{ data.activity or '' }}</td>
-                        <td>{{ data.task_description or '' }}</td>
-                        <td class="{% if data.task_status == 'In Progress' %}table-yellow_green
-                                    {% elif data.task_status == 'Complete' %}table-green
-                                    {% elif data.task_status == 'Overdue' %}table-red
-                                    {% elif data.task_status == 'Not Started' %}table-blue
-                                    {% else %}table-info{% endif %}">
-                                    {{ data.task_status or '' }}
-                        </td>
-                        <td>{{ data.percentage_of_activity or '' }}</td>
-                        <td>{{ data.responsible_person or '' }}</td>
-                        <td>{{ data.designation or '' }}</td>
-                        <td>
-                            {% if data.link %}
-                                <a href="{{ data.link }}" target="_blank">link</a>
-                            {% else %}
-                                {{ '' }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="container mt-4">
+    <h2 class="text-center cards_header">GIS Projects Summary</h2>
+    <div class="row">
+        {% for data in gis_data %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>{{ data.output_name or 'No Output' }}</strong></h5>
+                    <p class="card-text"><strong>Activity:</strong> {{ data.activity or 'No Activity' }}</p>
+                    <p class="card-text"><strong>Task:</strong> {{ data.task_description or 'No Task' }}</p>
+                    
+                    <p class="card-text">
+                        <strong>Status:</strong> 
+                        <span class="badge 
+                            {% if data.task_status == 'Complete' %}bg-success
+                            {% elif data.task_status == 'Overdue' %}bg-danger
+                            {% elif data.task_status == 'In Progress' %}bg-warning
+                            {% else %}bg-secondary{% endif %}">
+                            {{ data.task_status or 'Unknown' }}
+                        </span>
+                    </p>
+
+                    <div class="progress mb-2">
+                        <div class="progress-bar 
+                            {% if data.task_status == 'Complete' %}bg-success
+                            {% elif data.task_status == 'Overdue' %}bg-danger
+                            {% elif data.task_status == 'In Progress' %}bg-warning
+                            {% else %}bg-secondary{% endif %}" 
+                            role="progressbar" 
+                            style="width: {{ data.percentage_of_activity or 0 }}%;" 
+                            aria-valuenow="{{ data.percentage_of_activity or 0 }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100">
+                        </div>
+                    </div>
+                    
+                    <p><strong>Responsible Person:</strong> {{ data.responsible_person or 'Not Assigned' }}</p>
+                    <p><strong>Designation:</strong> {{ data.designation or 'Unknown' }}</p>
+                    
+                    {% if data.link %}
+                        <a href="{{ data.link }}" class="btn btn-primary btn-sm" target="_blank">View Details</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-
 <div class="charts-container">
     {% for chart in gis_tasks_charts %}
         <div id="gis_graph-container{{ loop.index }}" class="graph-container"></div>
     {% endfor %}
 </div>
-
-<!-- Load necessary scripts -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-
-<!-- Initialize DataTables -->
 <script>
     $(document).ready(function() {
         $('#gis_table').DataTable({
@@ -74,8 +68,6 @@
         });
     });
 </script>
-
-<!-- Load GIS bar plots -->
 <script>
     var gisTaskData = {{ gis_tasks_charts | safe }};
     gisTaskData.forEach(function(data, index) {
