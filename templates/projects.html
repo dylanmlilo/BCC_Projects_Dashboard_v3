@@ -31,34 +31,46 @@
                     <p><strong>Year:</strong> {{ project.year or 'N/A' }}</p>
 
                     <div class="progress-group">
-                        <p class="mb-1"><strong>Water Progress:</strong> {{ project.water_progress or 0 }}%</p>
+                        <p class="mb-1"><strong>Water Progress</strong></p>
                         <div class="progress mb-2">
-                            <div class="progress-bar bg-primary" style="width: {{ project.water_progress or 0 }}%;"></div>
+                            <div class="progress-bar bg-primary" style="width: {{ project.water_progress or 0 }}%;">
+                                {{ project.water_progress or 0 }}%
+                            </div>
                         </div>
 
-                        <p class="mb-1"><strong>Sewer Progress:</strong> {{ project.sewer_progress or 0 }}%</p>
+                        <p class="mb-1"><strong>Sewer Progress</strong></p>
                         <div class="progress mb-2">
-                            <div class="progress-bar bg-success" style="width: {{ project.sewer_progress or 0 }}%;"></div>
+                            <div class="progress-bar bg-success" style="width: {{ project.sewer_progress or 0 }}%;">
+                                {{ project.sewer_progress or 0 }}%
+                            </div>
                         </div>
 
-                        <p class="mb-1"><strong>Roads Progress:</strong> {{ project.roads_progress or 0 }}%</p>
+                        <p class="mb-1"><strong>Roads Progress</strong></p>
                         <div class="progress mb-2">
-                            <div class="progress-bar bg-dark" style="width: {{ project.roads_progress or 0 }}%;"></div>
+                            <div class="progress-bar bg-dark" style="width: {{ project.roads_progress or 0 }}%;">
+                                {{ project.roads_progress or 0 }}%
+                            </div>
                         </div>
 
-                        <p class="mb-1"><strong>Storm Drain Progress:</strong> {{ project.storm_drainage_progress or 0 }}%</p>
+                        <p class="mb-1"><strong>Storm Drain Progress</strong></p>
                         <div class="progress mb-2">
-                            <div class="progress-bar bg-info" style="width: {{ project.storm_drainage_progress or 0 }}%;"></div>
+                            <div class="progress-bar bg-info" style="width: {{ project.storm_drainage_progress or 0 }}%;">
+                                {{ project.storm_drainage_progress or 0 }}%
+                            </div>
                         </div>
 
-                        <p class="mb-1"><strong>Public Lighting Progress:</strong> {{ project.public_lighting_progress or 0 }}%</p>
+                        <p class="mb-1"><strong>Public Lighting Progress</strong></p>
                         <div class="progress mb-2">
-                            <div class="progress-bar bg-warning" style="width: {{ project.public_lighting_progress or 0 }}%;"></div>
+                            <div class="progress-bar bg-warning" style="width: {{ project.public_lighting_progress or 0 }}%;">
+                                {{ project.public_lighting_progress or 0 }}%
+                            </div>
                         </div>
 
-                        <p class="mb-1"><strong>Total Progress:</strong> {{ project.physical_progress_percentage or 0 }}%</p>
+                        <p class="mb-1"><strong>Total Progress</strong></p>
                         <div class="progress">
-                            <div class="progress-bar bg-danger" style="width: {{ project.physical_progress_percentage or 0 }}%;"></div>
+                            <div class="progress-bar bg-danger" style="width: {{ project.physical_progress_percentage or 0 }}%;">
+                                {{ project.physical_progress_percentage or 0 }}%
+                            </div>
                         </div>
                     </div>
                     {% if project.link %}
