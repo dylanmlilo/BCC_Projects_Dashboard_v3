@@ -87,7 +87,16 @@
         function getLastFriday() {
             let today = new Date();
             let dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
-            let daysUntilFriday = (dayOfWeek >= 5) ? (dayOfWeek - 5) : (dayOfWeek + 2); 
+            let daysUntilFriday;
+
+            if (dayOfWeek >= 5) {
+                // If today is Friday (5) or Saturday (6), subtract the difference to get last Friday
+                daysUntilFriday = dayOfWeek - 5;
+            } else {
+                // If today is Sunday (0) to Thursday (4), subtract the difference and add 7 to get last Friday
+                daysUntilFriday = dayOfWeek + 2;
+            }
+
             let lastFriday = new Date(today);
             lastFriday.setDate(today.getDate() - daysUntilFriday);
             return lastFriday.toISOString().split("T")[0]; // Format as YYYY-MM-DD

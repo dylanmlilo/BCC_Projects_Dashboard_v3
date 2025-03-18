@@ -81,13 +81,14 @@
                         <tbody>
                             {% for strategic_data in strategic_data_list %}
                             <tr>
-                                <td class="{% if strategic_data.status == 'In Progress' %}table-yellow_green
-                            {%elif strategic_data.status == 'Complete' %}table-green
-                            {%elif strategic_data.status == 'Overdue' %}table-red
-                            {% else %}table-info{% endif %}">{{ strategic_data.status }}</td>
-                            <td class="{% if strategic_data.priority == 'Low' %}table-blue 
-                            {%elif strategic_data.priority == 'High' %}table-red
-                            {% else %}table-yellow{% endif %}">{{ strategic_data.priority or '' }}</td>
+                                <td class="{% if strategic_data.status == 'In Progress' %}bg-primary
+                                {% elif strategic_data.status == 'Complete' %}bg-success
+                                {% elif strategic_data.status == 'Overdue' %}bg-danger
+                                {% else %}bg-secondary{% endif %} text-white">{{ strategic_data.status }}</td>
+                
+                                    <td class="{% if strategic_data.priority == 'Low' %}bg-info 
+                                {% elif strategic_data.priority == 'High' %}bg-danger
+                                {% else %}bg-warning{% endif %} text-white">{{ strategic_data.priority or '' }}</td>
                                 <td>{{ strategic_data.deadline or '' }}</td>
                                 <td>{{ strategic_data.task or '' }}</td>
                                 <td>{{ strategic_data.description or '' }}</td>
