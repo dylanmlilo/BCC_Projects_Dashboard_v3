@@ -14,12 +14,13 @@
     }
 
     .main_container .main-heading h1 {
-        font-size: 2.75rem;
+        font-size: 3rem;
         padding-top: 30px;
     }
 
     .main_container .main-heading h2 {
-        font-size: 1.8rem;
+        font-size: 2.2rem;
+        padding-top: 20px;
     }
 
     .main_container .sub-heading h2 {
